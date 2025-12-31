@@ -5,7 +5,7 @@ A personal blogging system built with Astro, designed for raw logs, polished ess
 ## Tech Stack
 - **Framework**: Astro 4.0
 - **Content**: Markdown + Frontmatter
-- **Styling**: Vanilla CSS (Variables + Flexbox/Grid)
+- **Styling**: Tailwind CSS + Typography
 - **Deployment**: Vercel (recommended)
 - **Comments**: Giscus (GitHub Discussions)
 
@@ -23,11 +23,11 @@ published: true
 project: optional-project-id
 ```
 
-### Blogs (Essays)
-Located in `src/content/blogs/`.
+### Articles (Essays)
+Located in `src/content/articles/`.
 Frontmatter:
 ```yaml
-type: blog
+type: article
 title: "My Blog Post"
 description: "Description for SEO"
 date: 2024-01-01
@@ -76,9 +76,8 @@ To enable comments on logs and articles:
 5.  Open `src/components/Giscus.astro` and replace the placeholders with your values.
 
 ### Deployments
-To enable comments, you must configure Giscus in `src/components/Giscus.astro`.
-1. Visit [giscus.app](https://giscus.app) to generate your configuration.
-2. Replace the placeholders (`[ENTER REPO HERE]`, etc.) in `src/components/Giscus.astro`.
+
+To enable deployments, push the repository to GitHub and import it into Vercel.
 
 ### Site URL
 Update `site` in `astro.config.mjs` with your production URL to ensure Sitemap/RSS work correctly.
