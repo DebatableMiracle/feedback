@@ -1,0 +1,17 @@
+---
+const { title } = Astro.props;
+---
+
+<header class="py-12 mb-16 border-b border-border">
+	<div class="container flex justify-between items-center">
+		<nav class="w-full flex justify-between items-center">
+			<a href="/" class="font-bold text-lg text-text hover:text-accent transition-colors">Feedback</a>
+			<div class="flex gap-6 text-sm font-medium text-secondary">
+				<a href="/articles" class="hover:text-accent transition-colors">Articles</a>
+				<a href="/logs" class="hover:text-accent transition-colors">Logs</a>
+				<a href="/projects" class="hover:text-accent transition-colors">Projects</a>
+				<a href="/about" class="hover:text-accent transition-colors">About</a>
+			</div>
+		</nav>
+	</div>
+</header>

@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import { getCollection } from 'astro:content';
+
+const articles = (await getCollection('articles'))
+	.filter((article) => article.data.published)
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout title="Articles" description="Essays on robotics, AI, and systems.">
+	<h1 class="text-3xl font-serif font-bold mb-12">Articles</h1>
+	<ul class="space-y-8">
+		{
+			articles.map((article) => (
+				<li class="group">
+					<a href={`/articles/${article.slug}/`} class="block mb-2">
+						<div class="flex justify-between items-baseline">
+							<span class="text-xl font-serif font-semibold text-text group-hover:text-accent transition-colors">{article.data.title}</span>
+							<span class="text-sm font-mono text-secondary"><FormattedDate date={article.data.date} /></span>
+						</div>
+					</a>
+					<p class="text-secondary leading-relaxed">{article.data.description}</p>
+				</li>
+			))
+		}
+	</ul>
+</BaseLayout>

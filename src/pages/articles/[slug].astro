@@ -1,0 +1,42 @@
+---
+import Giscus from '../../components/Giscus.astro';
+import { type CollectionEntry, getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('articles');
+	return posts.map((post) => ({
+		params: { slug: post.slug },
+		props: post,
+	}));
+}
+type Props = CollectionEntry<'articles'>;
+
+const post = Astro.props;
+const { Content } = await post.render();
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+	<article class="max-w-[65ch] mx-auto">
+		<header class="mb-12 text-center">
+			<h1 class="text-4xl font-serif font-bold mb-4 leading-tight">{post.data.title}</h1>
+			<div class="flex justify-center gap-4 text-sm font-mono text-secondary">
+				<FormattedDate date={post.data.date} />
+				{post.data.tags && (
+					<span class="flex gap-2">
+						{post.data.tags.map(tag => <a href={`/tags/${tag}`} class="hover:text-accent">#{tag}</a>)}
+					</span>
+				)}
+			</div>
+		</header>
+		<div class="prose prose-lg font-serif mx-auto">
+			<Content />
+		</div>
+		
+		<div class="mt-16 pt-16 border-t border-border">
+			<h3 class="text-sm font-semibold uppercase tracking-wider text-secondary mb-8">Discussion</h3>
+			<Giscus />
+		</div>
+	</article>
+</BaseLayout>

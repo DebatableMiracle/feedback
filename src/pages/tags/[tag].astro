@@ -1,0 +1,89 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+
+export async function getStaticPaths() {
+	const allLogs = await getCollection('logs');
+	const allArticles = await getCollection('articles');
+	const allProjects = await getCollection('projects');
+	
+	const uniqueTags = [...new Set([
+		...allLogs.flatMap(post => post.data.tags || []),
+		...allArticles.flatMap(post => post.data.tags || []),
+		...allProjects.flatMap(project => project.data.tags || [])
+	])];
+
+	return uniqueTags.map((tag) => {
+		const filteredLogs = allLogs.filter((post) => post.data.tags?.includes(tag)).map(p => ({...p, type: 'log'}));
+		const filteredArticles = allArticles.filter((post) => post.data.tags?.includes(tag)).map(p => ({...p, type: 'article'}));
+		const filteredProjects = allProjects.filter((post) => post.data.tags?.includes(tag)).map(p => ({...p, type: 'project'}));
+		
+		return {
+			params: { tag },
+			props: {
+				tag,
+				posts: [...filteredArticles, ...filteredLogs, ...filteredProjects].sort((a, b) => {
+                    // Projects don't have date usually, push to bottom or sort by something else?
+                    // User requirements: "Ordering: Blogs first, Logs after, Each sorted newest first"
+                    // Projects mixed? "Tag pages show mixed content".
+                    // Let's implement User Requirement: "Blogs first, Logs after".
+                    return 0; // Sorting handled in render
+                }),
+                grouped: {
+                    articles: filteredArticles.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()),
+                    logs: filteredLogs.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()),
+                    projects: filteredProjects
+                }
+			},
+		};
+	});
+}
+
+const { tag, grouped } = Astro.props;
+---
+
+<BaseLayout title={`Tag: #${tag}`} description={`Content tagged with #${tag}`}>
+	<h1 class="text-3xl font-bold mb-12">#{tag}</h1>
+	
+	{grouped.projects.length > 0 && (
+		<section class="mb-12">
+			<h2 class="text-sm font-semibold uppercase tracking-wider text-secondary mb-6 border-b border-border pb-2">Projects</h2>
+			<ul class="space-y-2">
+				{grouped.projects.map((project) => (
+					<li><a href={`/projects/${project.id}/`} class="text-lg font-bold hover:text-accent transition-colors">{project.data.title}</a></li>
+				))}
+			</ul>
+		</section>
+	)}
+	
+	{grouped.articles.length > 0 && (
+		<section class="mb-12">
+			<h2 class="text-sm font-semibold uppercase tracking-wider text-secondary mb-6 border-b border-border pb-2">Articles</h2>
+			<ul class="space-y-4">
+				{grouped.articles.map((article) => (
+					<li class="flex justify-between items-baseline group">
+						<a href={`/articles/${article.slug}/`} class="text-lg font-serif font-semibold group-hover:text-accent transition-colors">{article.data.title}</a>
+						<span class="text-sm font-mono text-secondary"><FormattedDate date={article.data.date} /></span>
+					</li>
+				))}
+			</ul>
+		</section>
+	)}
+	
+	{grouped.logs.length > 0 && (
+		<section class="mb-12">
+			<h2 class="text-sm font-semibold uppercase tracking-wider text-secondary mb-6 border-b border-border pb-2">Logs</h2>
+			<ul class="space-y-3">
+				{grouped.logs.map((log) => (
+					<li>
+						<a href={`/logs/${log.slug}/`} class="flex items-baseline gap-4 group font-mono text-sm hover:text-accent transition-colors">
+							<span class="text-secondary min-w-[3ch]">#{log.data.log_number}</span>
+							<span class="text-text"><FormattedDate date={log.data.date} /></span>
+						</a>
+					</li>
+				))}
+			</ul>
+		</section>
+	)}
+</BaseLayout>

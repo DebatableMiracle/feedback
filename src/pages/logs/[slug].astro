@@ -1,0 +1,43 @@
+---
+import Giscus from '../../components/Giscus.astro';
+import { type CollectionEntry, getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('logs');
+	return posts.map((post) => ({
+		params: { slug: post.slug },
+		props: post,
+	}));
+}
+type Props = CollectionEntry<'logs'>;
+
+const post = Astro.props;
+const { Content } = await post.render();
+---
+
+<BaseLayout title={`Log #${post.data.log_number}`} description={`Log entry #${post.data.log_number}`}>
+	<article class="max-w-[65ch] mx-auto">
+		<header class="mb-8 border-b border-border pb-4 flex justify-between items-baseline font-mono text-sm text-secondary">
+			<span class="font-bold text-text">#{post.data.log_number}</span>
+			<div class="flex gap-4">
+				<FormattedDate date={post.data.date} />
+				{post.data.tags && (
+					<div class="flex gap-2">
+						{post.data.tags.map((tag) => (
+							<a href={`/tags/${tag}`} class="hover:text-accent">#{tag}</a>
+						))}
+					</div>
+				)}
+			</div>
+		</header>
+		<div class="prose font-sans text-base leading-relaxed mx-auto">
+			<Content />
+		</div>
+		
+		<div class="mt-12 pt-8 border-t border-border">
+			<Giscus />
+		</div>
+	</article>
+</BaseLayout>

@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import { getCollection } from 'astro:content';
+
+const logs = (await getCollection('logs'))
+	.filter((log) => log.data.published)
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout title="Logs" description="Raw thoughts and daily logs.">
+	<section class="max-w-[65ch] mx-auto">
+		<h1 class="text-2xl font-bold mb-8 font-mono">Logs</h1>
+		<ul class="space-y-4">
+			{
+				logs.map((log) => (
+					<li>
+						<a href={`/logs/${log.slug}/`} class="flex gap-6 items-baseline font-mono group">
+							<span class="text-secondary min-w-[3ch] group-hover:text-accent transition-colors">#{log.data.log_number}</span>
+							<span class="text-text group-hover:text-accent transition-colors"><FormattedDate date={log.data.date} /></span>
+						</a>
+						<div class="log-preview">
+							{/* We could show a preview here if body is available, but for now just title/link */}
+						</div>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+</BaseLayout>
