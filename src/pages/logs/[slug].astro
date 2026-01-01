@@ -19,9 +19,12 @@ const { Content } = await post.render();
 
 <BaseLayout title={`Log #${post.data.log_number}`} description={`Log entry #${post.data.log_number}`}>
 	<article class="max-w-[65ch] mx-auto">
-		<header class="mb-8 border-b border-border pb-4 flex justify-between items-baseline font-mono text-sm text-secondary">
-			<span class="font-bold text-text">#{post.data.log_number}</span>
-			<div class="flex gap-4">
+		<header class="mb-8 border-b border-border pb-4 flex justify-between items-end font-mono text-sm text-secondary">
+			<div class="flex flex-col gap-1">
+				<span class="font-bold text-text text-lg">#{post.data.log_number}</span>
+				{post.data.subtitle && <span class="text-secondaryText italic">{post.data.subtitle}</span>}
+			</div>
+			<div class="flex gap-4 mb-1">
 				<FormattedDate date={post.data.date} />
 				{post.data.tags && (
 					<div class="flex gap-2">
