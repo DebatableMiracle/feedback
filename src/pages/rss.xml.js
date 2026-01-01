@@ -14,6 +14,7 @@ export async function GET(context) {
     ].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
     return rss({
+        stylesheet: '/rss-styles.xsl',
         title: 'Feedback',
         description: 'A public loop of raw logs and refined articles.',
         site: context.site,

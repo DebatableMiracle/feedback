@@ -6,6 +6,7 @@ export async function GET(context) {
     const publishedArticles = articles.filter(article => article.data.published);
 
     return rss({
+        stylesheet: '/rss-styles.xsl',
         title: 'My Digital Garden - Essays',
         description: 'Essays on robotics, AI, and systems.',
         site: context.site,

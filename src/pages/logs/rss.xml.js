@@ -6,6 +6,7 @@ export async function GET(context) {
     const publishedLogs = logs.filter(log => log.data.published);
 
     return rss({
+        stylesheet: '/rss-styles.xsl',
         title: 'My Digital Garden - Logs',
         description: 'Raw thoughts and daily logs.',
         site: context.site,
