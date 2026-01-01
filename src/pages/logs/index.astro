@@ -5,7 +5,11 @@ import { getCollection } from 'astro:content';
 
 const logs = (await getCollection('logs'))
 	.filter((log) => log.data.published)
-	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+	.sort((a, b) => {
+		const dateDiff = b.data.date.valueOf() - a.data.date.valueOf();
+		if (dateDiff !== 0) return dateDiff;
+		return b.data.log_number - a.data.log_number;
+	});
 ---
 
 <BaseLayout title="Logs" description="Raw thoughts and daily logs.">

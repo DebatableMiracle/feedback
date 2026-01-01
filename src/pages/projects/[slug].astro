@@ -27,7 +27,15 @@ const articles = await getCollection('articles', ({ data }) => {
 const allContent = [
 	...logs.map(l => ({ ...l, type: 'log' })), 
 	...articles.map(b => ({ ...b, type: 'article' }))
-].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+].sort((a, b) => {
+	const dateDiff = b.data.date.valueOf() - a.data.date.valueOf();
+	if (dateDiff !== 0) return dateDiff;
+	// @ts-ignore
+	const logNumA = a.data.log_number || 0;
+	// @ts-ignore
+	const logNumB = b.data.log_number || 0;
+	return logNumB - logNumA;
+});
 ---
 
 <BaseLayout title={project.data.title} description={project.data.description}>

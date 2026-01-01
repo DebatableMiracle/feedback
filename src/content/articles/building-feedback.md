@@ -5,7 +5,9 @@ description: Why I decided to build a markdown-first blogging system from scratc
 date: 2025-12-31
 tags:
   - meta
+  - feedback
 published: true
+project: feedback
 ---
 
 # The need for logging
