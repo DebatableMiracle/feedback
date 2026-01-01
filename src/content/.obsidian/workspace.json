@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "articles/building-feedback.md",
+                "file": "logs/log-002.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "building-feedback"
+              "title": "log-002"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "articles/building-feedback.md",
+                "file": "logs/log-002.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for building-feedback"
+              "title": "Backlinks for log-002"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "articles/building-feedback.md",
+                "file": "logs/log-002.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from building-feedback"
+              "title": "Outgoing links from log-002"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "articles/building-feedback.md",
+                "file": "logs/log-002.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of building-feedback"
+              "title": "Outline of log-002"
             }
           }
         ]
@@ -185,8 +185,9 @@
   },
   "active": "749b86b7554c667e",
   "lastOpenFiles": [
-    "logs/log-001.md",
     "articles/building-feedback.md",
+    "logs/log-002.md",
+    "logs/log-001.md",
     "2025-12-31.md"
   ]
 }
