@@ -9,6 +9,8 @@ const logs = defineCollection({
 		tags: z.array(z.string()).optional(),
 		published: z.boolean().default(true),
 		project: z.string().optional(),
+		subtitle: z.string().optional(),
+		mood: z.enum(['soul', 'system']).default('system'),
 	}),
 });
 
@@ -22,6 +24,7 @@ const articles = defineCollection({
 		tags: z.array(z.string()).optional(),
 		published: z.boolean().default(true),
 		project: z.string().optional(),
+		mood: z.enum(['soul', 'system']).default('system'),
 		series: z.object({
 			name: z.string(),
 			part: z.number(),

@@ -6,7 +6,16 @@ const { title } = Astro.props;
 	<div class="container flex justify-between items-center">
 		<nav class="w-full flex justify-between items-center">
 			<a href="/" class="font-bold text-lg text-text hover:text-accent transition-colors">Feedback</a>
-			<div class="flex gap-6 text-sm font-medium text-secondary">
+			<div class="flex gap-6 text-sm font-medium text-secondary items-center">
+				{
+					(Astro.url.pathname === '/logs' || Astro.url.pathname === '/logs/' || Astro.url.pathname === '/articles' || Astro.url.pathname === '/articles/') && (
+						<div class="hidden sm:flex gap-1 bg-gray-100 p-1 rounded-md" id="mood-toggle">
+							<button data-filter="all" class="px-2 py-0.5 rounded text-xs font-bold bg-white shadow-sm text-text transition-all">ALL</button>
+							<button data-filter="system" class="px-2 py-0.5 rounded text-xs text-secondary hover:bg-white/50 transition-all">SYS</button>
+							<button data-filter="soul" class="px-2 py-0.5 rounded text-xs text-secondary hover:bg-white/50 transition-all">SOUL</button>
+						</div>
+					)
+				}
 				<a href="/articles" class="hover:text-accent transition-colors">Articles</a>
 				<a href="/logs" class="hover:text-accent transition-colors">Logs</a>
 				<a href="/projects" class="hover:text-accent transition-colors">Projects</a>
@@ -15,3 +24,31 @@ const { title } = Astro.props;
 		</nav>
 	</div>
 </header>
+
+<script>
+	const buttons = document.querySelectorAll('#mood-toggle button');
+	const logItems = document.querySelectorAll('li[data-mood]');
+
+	buttons.forEach(btn => {
+		btn.addEventListener('click', () => {
+			// Update active state
+			buttons.forEach(b => {
+				b.classList.remove('bg-white', 'shadow-sm', 'text-text', 'font-bold');
+				b.classList.add('text-secondary');
+			});
+			btn.classList.add('bg-white', 'shadow-sm', 'text-text', 'font-bold');
+			btn.classList.remove('text-secondary');
+
+			// Filter items
+			const filter = btn.getAttribute('data-filter');
+			logItems.forEach(item => {
+				const itemMood = item.getAttribute('data-mood');
+				if (filter === 'all' || itemMood === filter) {
+					item.classList.remove('hidden');
+				} else {
+					item.classList.add('hidden');
+				}
+			});
+		});
+	});
+</script>

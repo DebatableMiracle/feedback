@@ -13,7 +13,7 @@ const articles = (await getCollection('articles'))
 	<ul class="space-y-8">
 		{
 			articles.map((article) => (
-				<li class="group">
+				<li class="group" data-mood={article.data.mood || 'system'}>
 					<a href={`/articles/${article.slug}/`} class="block mb-2">
 						<div class="flex justify-between items-baseline">
 							<span class="text-xl font-serif font-semibold text-text group-hover:text-accent transition-colors">{article.data.title}</span>

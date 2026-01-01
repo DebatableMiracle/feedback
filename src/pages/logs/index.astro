@@ -18,10 +18,17 @@ const logs = (await getCollection('logs'))
 		<ul class="space-y-4">
 			{
 				logs.map((log) => (
-					<li>
-						<a href={`/logs/${log.slug}/`} class="flex gap-6 items-baseline font-mono group">
-							<span class="text-secondary min-w-[3ch] group-hover:text-accent transition-colors">#{log.data.log_number}</span>
-							<span class="text-text group-hover:text-accent transition-colors"><FormattedDate date={log.data.date} /></span>
+					<li data-mood={log.data.mood || 'system'}>
+						<a href={`/logs/${log.slug}/`} class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-6 font-mono group">
+							<div class="flex items-baseline gap-4 min-w-[200px]">
+								<span class="text-secondary group-hover:text-accent transition-colors">#{log.data.log_number}</span>
+								<span class="text-text group-hover:text-accent transition-colors whitespace-nowrap"><FormattedDate date={log.data.date} /></span>
+							</div>
+							{log.data.subtitle && (
+								<span class="text-secondaryText text-sm italic group-hover:text-accent transition-colors">
+									{log.data.subtitle}
+								</span>
+							)}
 						</a>
 						<div class="log-preview">
 							{/* We could show a preview here if body is available, but for now just title/link */}
