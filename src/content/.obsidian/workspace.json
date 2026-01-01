@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "articles/VLA-from-scratch.md",
+                "file": "logs/log-003.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "VLA-from-scratch"
+              "title": "log-003"
             }
           }
         ]
@@ -185,12 +185,12 @@
   },
   "active": "12da9917f49f65e6",
   "lastOpenFiles": [
+    "logs/log-002.md",
+    "logs/log-001.md",
     "articles/VLA-from-scratch.md",
     "articles/building-feedback.md",
-    "Untitled.md",
-    "logs/log-001.md",
     "logs/log-003.md",
-    "logs/log-002.md",
+    "Untitled.md",
     "2025-12-31.md",
     "projects/feedback.json"
   ]
