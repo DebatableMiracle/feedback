@@ -165,3 +165,11 @@ vite.config.ts.timestamp-*
 #Obsidian
 .obsidian/workspace*
 .obsidian/cache/
+
+
+# Syncthing
+.stfolder/
+.stversions/
+
+# Obsidian
+.obsidian/

@@ -1,5 +1,0 @@
-# This directory is a Syncthing folder marker.
-# Do not delete.
-
-folderID: rcqup-szvtk
-created: 2026-01-01T22:20:02+05:30
