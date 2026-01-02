@@ -1,8 +1,8 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
 
-const projects = await getCollection('projects');
+const projects = await getCollection("projects");
 ---
 
 <BaseLayout title="Projects" description="Long-running builds and ideas.">
@@ -11,15 +11,25 @@ const projects = await getCollection('projects');
 		{
 			projects.map((project) => (
 				<li class="border border-border p-6 rounded-sm hover:border-accent transition-colors">
-					<a href={`/projects/${project.id}/`} class="block group">
-						<h2 class="text-xl font-bold mb-2 group-hover:text-accent transition-colors">{project.data.title}</h2>
+					<a href={`/projects/${project.slug}/`} class="block group">
+						<h2 class="text-xl font-bold mb-2 group-hover:text-accent transition-colors">
+							{project.data.title}
+						</h2>
 					</a>
-					<p class="text-secondary text-sm mb-4 leading-relaxed">{project.data.description}</p>
+					<div class="text-secondary text-sm mb-4 leading-relaxed prose prose-sm dark:prose-invert">
+						{project.body}
+					</div>
 					<div class="flex gap-4 items-center">
-						<span class={`uppercase text-xs font-bold px-2 py-1 rounded-sm bg-gray-100 ${project.data.status === 'active' ? 'text-green-700 bg-green-50' : project.data.status === 'paused' ? 'text-yellow-700 bg-yellow-50' : 'text-blue-700 bg-blue-50'}`}>{project.data.status}</span>
+						<span
+							class={`uppercase text-xs font-bold px-2 py-1 rounded-sm bg-gray-100 ${project.data.status === "active" ? "text-green-700 bg-green-50" : project.data.status === "paused" ? "text-yellow-700 bg-yellow-50" : "text-blue-700 bg-blue-50"}`}
+						>
+							{project.data.status}
+						</span>
 						{project.data.tags && (
 							<span class="text-xs text-secondary font-mono">
-								{project.data.tags.map(tag => `#${tag}`).join(' ')}
+								{project.data.tags
+									.map((tag) => `#${tag}`)
+									.join(" ")}
 							</span>
 						)}
 					</div>

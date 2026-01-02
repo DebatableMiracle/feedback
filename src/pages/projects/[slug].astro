@@ -1,32 +1,41 @@
 ---
-import { type CollectionEntry, getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import FormattedDate from '../../components/FormattedDate.astro';
+import { type CollectionEntry, getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import FormattedDate from "../../components/FormattedDate.astro";
 
 export async function getStaticPaths() {
-	const projects = await getCollection('projects');
+	const projects = await getCollection("projects");
 	return projects.map((project) => ({
-		params: { slug: project.id },
+		params: { slug: project.slug },
 		props: project,
 	}));
 }
-type Props = CollectionEntry<'projects'>;
+type Props = CollectionEntry<"projects">;
 
 const project = Astro.props;
+const { Content } = await project.render();
 
 // Fetch related content
-const logs = await getCollection('logs', ({ data }) => {
-	return data.project === project.id && data.published;
+const logs = await getCollection("logs", ({ data }) => {
+	const matchesProject = data.project === project.slug;
+	const matchesTags = project.data.match_tags
+		? data.tags?.some((tag) => project.data.match_tags!.includes(tag))
+		: false;
+	return (matchesProject || matchesTags) && data.published;
 });
 
-const articles = await getCollection('articles', ({ data }) => {
-	return data.project === project.id && data.published;
+const articles = await getCollection("articles", ({ data }) => {
+	const matchesProject = data.project === project.slug;
+	const matchesTags = project.data.match_tags
+		? data.tags?.some((tag) => project.data.match_tags!.includes(tag))
+		: false;
+	return (matchesProject || matchesTags) && data.published;
 });
 
 // Combine and sort by date
 const allContent = [
-	...logs.map(l => ({ ...l, type: 'log' })), 
-	...articles.map(b => ({ ...b, type: 'article' }))
+	...logs.map((l) => ({ ...l, type: "log" })),
+	...articles.map((b) => ({ ...b, type: "article" })),
 ].sort((a, b) => {
 	const dateDiff = b.data.date.valueOf() - a.data.date.valueOf();
 	if (dateDiff !== 0) return dateDiff;
@@ -38,46 +47,77 @@ const allContent = [
 });
 ---
 
-<BaseLayout title={project.data.title} description={project.data.description}>
+<BaseLayout
+	title={project.data.title}
+	description={`Details for project: ${project.data.title}`}
+>
 	<header class="mb-12 border-b border-border pb-8">
 		<h1 class="text-3xl font-bold mb-4">{project.data.title}</h1>
-		<p class="text-xl text-secondary mb-6">{project.data.description}</p>
+		<div class="text-xl text-secondary mb-6 prose dark:prose-invert">
+			<Content />
+		</div>
 		<div class="flex items-center gap-4">
-			<span class={`uppercase text-xs font-bold px-2 py-1 rounded-sm bg-gray-100 ${project.data.status === 'active' ? 'text-green-700 bg-green-50' : project.data.status === 'paused' ? 'text-yellow-700 bg-yellow-50' : 'text-blue-700 bg-blue-50'}`}>{project.data.status}</span>
+			<span
+				class={`uppercase text-xs font-bold px-2 py-1 rounded-sm bg-gray-100 ${project.data.status === "active" ? "text-green-700 bg-green-50" : project.data.status === "paused" ? "text-yellow-700 bg-yellow-50" : "text-blue-700 bg-blue-50"}`}
+				>{project.data.status}</span
+			>
 		</div>
 	</header>
 
 	<section class="max-w-[65ch]">
-		<h2 class="text-sm font-semibold uppercase tracking-wider text-secondary mb-8">Project Timeline</h2>
-		{allContent.length > 0 ? (
-			<ul class="border-l-2 border-border ml-2 space-y-8">
-				{allContent.map((item) => (
-					<li class="relative pl-6">
-						<div class={`absolute -left-[5px] top-2 w-2 h-2 rounded-full ${item.type === 'article' ? 'bg-accent' : 'bg-border'}`}></div>
-						
-						<div class="flex flex-col sm:flex-row sm:items-baseline gap-2 mb-1">
-							<div class="text-sm font-mono text-secondary w-24 flex-shrink-0">
-								<FormattedDate date={item.data.date} />
+		<h2
+			class="text-sm font-semibold uppercase tracking-wider text-secondary mb-8"
+		>
+			Project Timeline
+		</h2>
+		{
+			allContent.length > 0 ? (
+				<ul class="border-l-2 border-border ml-2 space-y-8">
+					{allContent.map((item) => (
+						<li class="relative pl-6">
+							<div
+								class={`absolute -left-[5px] top-2 w-2 h-2 rounded-full ${item.type === "article" ? "bg-accent" : "bg-border"}`}
+							/>
+
+							<div class="flex flex-col sm:flex-row sm:items-baseline gap-2 mb-1">
+								<div class="text-sm font-mono text-secondary w-24 flex-shrink-0">
+									<FormattedDate date={item.data.date} />
+								</div>
+								<div class="flex-1">
+									{item.type === "log" ? (
+										<a
+											href={`/logs/${item.slug}/`}
+											class="flex items-center gap-2 font-mono text-text hover:text-accent transition-colors"
+										>
+											<span class="text-xs font-bold bg-gray-100 px-1 rounded text-secondary">
+												LOG
+											</span>
+											Log #
+											{"log_number" in item.data
+												? item.data.log_number
+												: ""}
+										</a>
+									) : (
+										<a
+											href={`/articles/${item.slug}/`}
+											class="flex items-center gap-2 font-serif font-semibold text-lg hover:text-accent transition-colors"
+										>
+											<span class="text-xs font-bold bg-gray-100 px-1 rounded text-secondary font-sans self-center">
+												ARTICLE
+											</span>
+											{"title" in item.data
+												? item.data.title
+												: ""}
+										</a>
+									)}
+								</div>
 							</div>
-							<div class="flex-1">
-								{item.type === 'log' ? (
-									<a href={`/logs/${item.slug}/`} class="flex items-center gap-2 font-mono text-text hover:text-accent transition-colors">
-										<span class="text-xs font-bold bg-gray-100 px-1 rounded text-secondary">LOG</span>
-										Log #{item.data.log_number}
-									</a>
-								) : (
-									<a href={`/articles/${item.slug}/`} class="flex items-center gap-2 font-serif font-semibold text-lg hover:text-accent transition-colors">
-										<span class="text-xs font-bold bg-gray-100 px-1 rounded text-secondary font-sans self-center">ARTICLE</span>
-										{item.data.title}
-									</a>
-								)}
-							</div>
-						</div>
-					</li>
-				))}
-			</ul>
-		) : (
-			<p class="text-secondary italic">No updates yet.</p>
-		)}
+						</li>
+					))}
+				</ul>
+			) : (
+				<p class="text-secondary italic">No updates yet.</p>
+			)
+		}
 	</section>
 </BaseLayout>
