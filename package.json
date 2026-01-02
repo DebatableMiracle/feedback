@@ -6,7 +6,10 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "watch": "node scripts/git-watcher.js",
+    "sync:on": "./scripts/start-sync.sh",
+    "sync:off": "./scripts/stop-sync.sh"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",
@@ -16,6 +19,9 @@
     "@vercel/analytics": "^1.6.1",
     "@vercel/speed-insights": "^1.3.1",
     "astro": "^5.16.6",
+    "chokidar": "^5.0.0",
+    "gray-matter": "^4.0.3",
+    "simple-git": "^3.30.0",
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3"
   },
