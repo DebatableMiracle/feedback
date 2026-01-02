@@ -37,16 +37,51 @@ project: optional-project-id
 ```
 
 ### Projects
-Located in `src/content/projects/[id].json`.
+Located in `src/content/projects/[slug].md`.
 Format:
-```json
-{
-  "title": "Project Name",
-  "description": "Description...",
-  "status": "active",
-  "tags": ["tag1"]
-}
+```markdown
+---
+title: "Project Name"
+status: "active"
+tags: ["tag1"]
+match_tags: ["tag1"]
+---
+Description goes here...
 ```
+
+## Workflow & Syncing
+
+This project is designed to work with **Obsidian** for content editing and **Syncthing** for syncing content across devices.
+
+### Obsidian Integration
+- The `src/content` directory is structured to be opened as an Obsidian vault.
+- **Wikilinks**: Supported by the system (e.g., `[[My Link]]` maps to `/articles/my-link/`).
+- **Frontmatter**: Standard Obsidian YAML frontmatter is used.
+- **Ignored Files**: Obsidian config files (`.obsidian`, `.stfolder`, etc.) are ignored by Git but synced via Syncthing.
+
+### Syncthing Setup
+- Sync the `src/content` folder across your devices using Syncthing.
+- This allows you to write on mobile/tablet using Obsidian and have changes appear in this repo automatically.
+
+### Git Auto-Sync
+To keep the repository in sync with your Obsidian edits without manual commits, use the included auto-sync scripts:
+
+1. **Setup**:
+   ```bash
+   ./scripts/setup-service.sh
+   ```
+   This installs a systemd service that monitors file changes.
+
+2. **Manual Start/Stop**:
+   ```bash
+   ./scripts/start-sync.sh
+   ./scripts/stop-sync.sh
+   ```
+
+The watcher (`scripts/git-watcher.js`) will:
+- Monitor key directories (`logs`, `articles`, `projects`).
+- Auto-commit changes with a descriptive message.
+- Auto-push to the remote repository.
 
 ## Setup & Running Locally
 
