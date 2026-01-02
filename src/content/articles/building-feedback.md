@@ -17,7 +17,7 @@ The initial idea for me was to log my thoughts etc to declutter myself from them
 ## Architecture
 
 This site is built with:
-- **Astro** 
+- **Astro** 9
 - **Markdown** 
 - **Vercel** for hosting currently
 - Giscus for comments
@@ -29,4 +29,5 @@ It is designed to be low-friction. I write in Obsidian, I commit to Git, it appe
 
 The distinction is important to me, because how I think Logs, are unpolished core of ideas over which I might decide to act possibly in 6 months. The finished product, is supposed to be my blog! (or article, I'm still working on it)
 
-
+#### Updates: (jan 1)
+I recently connected the repository content files to Syncthing and Obsidian on my phone which enables me to update the files nearly in real time (takes like a solid minute) But the idea is basically I don't have to run to my pc everytime I wanna write something down and it'll be updated in my code. 
