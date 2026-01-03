@@ -21,6 +21,8 @@
     "astro": "^5.16.6",
     "chokidar": "^5.0.0",
     "gray-matter": "^4.0.3",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0",
     "simple-git": "^3.30.0",
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3"

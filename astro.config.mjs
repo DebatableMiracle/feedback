@@ -2,6 +2,8 @@
 import { defineConfig } from 'astro/config';
 
 import sitemap from '@astrojs/sitemap';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 
 import tailwindcss from '@tailwindcss/vite';
 
@@ -9,6 +11,11 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://feedback-two-phi.vercel.app',
   integrations: [sitemap()],
+
+  markdown: {
+    remarkPlugins: [remarkMath],
+    rehypePlugins: [rehypeKatex]
+  },
 
   vite: {
     plugins: [tailwindcss()]
