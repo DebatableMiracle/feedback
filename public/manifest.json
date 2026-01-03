@@ -1,7 +1,7 @@
 {
-    "name": "CMS Feedback",
-    "short_name": "Prose",
-    "description": "A personal prose gardening system.",
+    "name": "Feedback",
+    "short_name": "Feedback",
+    "description": "A personal logging site.",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#111111",
