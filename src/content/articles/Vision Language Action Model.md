@@ -1,6 +1,6 @@
 ---
 type: article
-title: What is a VLA An overview
+title: "What is a VLA: An overview"
 description: A theoretical deep dive into VLA models.
 date: 2026-01-01T20:00:00
 tags:
@@ -9,7 +9,7 @@ tags:
 published: true
 project: "Vision Language Model: Overview and Implementation"
 ---
-# The core need for a Vision Language Action Models for Robots
+###The core need for a Vision Language Action Models for Robots
 
 Robots have become noticeably capable over the past decade. However, despite the fast AI evolution since Transformers based models broke through the scene, you might feel Robots have not really advanced as you'd expect. While systems like ChatGPT feel so useful and AI assistants,  like Siri and Gemini, slowly taking over our daily lives, Robots haven't really become mainstream out of labs. 
 
