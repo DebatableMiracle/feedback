@@ -68,5 +68,5 @@ Everything said, the simulation didn't exactly come with instruction manual so j
   A classical philosophical thought experiment about perception, illusion, and reality. Often seen as an early precursor to modern skepticism about whether our experiences reflect the true nature of the world. Haven't read this yet but you know, classics. They say you should read them.
 
 - *Brains in a Vat*  
-  https://philosophy.as.uky.edu/sites/default/files/Brains%20in%20a%20Vat%20-%20Hilary%20Putnam.pdf  
+  [https://philosophy.as.uky.edu/sites/default/files/Brains%20in%20a%20Vat%20-%20Hilary%20Putnam.pdf](Brat_in _a_Vat.pdf)
   A modern philosophical argument questioning whether we could ever know if our experiences are systematically deceived, laying important groundwork for simulation-style skepticism.
