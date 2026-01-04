@@ -8,6 +8,8 @@ tags:
   - metaphysics
   - posthuman
   - consciousness
+  - simulation-theory
+  - simulation
 published: true
 project: Living in a simulation
 ---
