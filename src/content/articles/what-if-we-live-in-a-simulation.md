@@ -15,7 +15,7 @@ project: Living in a simulation
 
 
 
-So, the idea comes from a probability argument, that *if* an intelligent civilisation tends to survive, if the computation keeps scaling and if consciousness can arise from physical processes, then running simulated minds becomes not just possible, but pretty plausible. If all this happens, simulated observers should practically outnumber the actual biological observers(if they exist considering that means the original reality might vastly vary from ours!).  At that point, the question of whether you and I exist in a "base reality" becomes very anti-intuitive and statistically the answer is probably no. 
+So, the idea comes from a probability argument, that *if* an intelligent civilisation tends to survive, *if* the computation keeps scaling and *if* consciousness can arise from physical processes, then running simulated minds becomes not just possible, but pretty plausible. If all this happens, simulated observers should practically outnumber the actual biological observers(if they exist considering that means the original reality might vastly vary from ours!).  At that point, the question of whether you and I exist in a "base reality" becomes very anti-intuitive and statistically the answer is probably no. 
 
 Crucially this idea doesn't essentially say "we are in a simulation" which already sounds uncomfortable enough. It says that denying this, forces you to accept something equally heavy. It leads to the assumption civilisation always collapse. Or they deliberately chose not to simulate their past.
 
