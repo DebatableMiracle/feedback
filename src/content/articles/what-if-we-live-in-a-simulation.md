@@ -45,7 +45,7 @@ Maybe they nuke themselves to extinction or get addicted to cat Tiktok equivalen
 They get to posthuman levels but hardly any of the civilisations want to run these simulations. Either they barely care to run these simulations, or maybe it's ethically wrong or some other hard rule exists like Back to the Future!
 Or they turn super-intelligent and decide minimalism is the way to life.
 #### $f_{\text{sim}} \approx 1$
-Or they do end up making simulations and run lots of them. And due to probabilities, we statistically are almost living in a simulation, which somehow feels not as heavy as it did last time I pondered over this. Base reality is super rare in this case and well, I don't feel very lucky since I've been conscious. Some alien super computer is burning out RAM for your "well-articulated" online arguments. 
+Or they do end up making simulations and run lots of them. And due to probabilities, we statistically are almost living in a simulation, which somehow feels not as heavy as it did last time I pondered over this. Base reality is super rare in this case and well, I don't feel very lucky since I've been conscious. So in other words, an advanced alien super computer is burning out RAM for your "well-articulated" online arguments. 
 
 ### How do we know we are inside a simulation then?
 Theoretically speaking, we can't. Maybe if on a quantum level things feel unconventional and pretty super-computer-like? But then we can't probably comprehend those supercomputers of those levels. You may say maybe, there's some glitches in the matrix we could find but no, they can probably fix those, erase evidence, restart sim or just whatever. 
