@@ -12,7 +12,7 @@ project: feedback
 
 # The need for logging
 
-The initial idea for me was to log my thoughts etc to declutter myself from them. And I have quite varied interests varying from Reinforcement Learning, AI, AGI, Robotics, sometimes philosophy, psychology and how technology and these blend in with our coming future. A single blog place like medium didn't feel as structured and personal to me. At the same time, being an undergrad and working on different things, I don't think I'm committing to writing thorough posts every time. That's why I decided to give myself liberty with logs, short descriptive notes of thoughts I get, ideas. They're meant to be simplistic and just like a personal diary.
+The initial idea for me was to log my thoughts etc to declutter myself from them. And I have quite varied interests varying from Reinforcement Learning, AI, AGI, Robotics, sometimes metaphysics, philosophy, psychology and how technology and these blend in with our coming future. A single blog place like medium didn't feel as structured and personal to me. At the same time, being an undergrad and working on different things, I don't think I'm committing to writing thorough posts every time. That's why I decided to give myself liberty with logs, short descriptive notes of thoughts I get, ideas. They're meant to be simplistic and just like a personal diary.
 
 ## Architecture
 
