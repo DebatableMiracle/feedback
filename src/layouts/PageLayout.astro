@@ -1,0 +1,19 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+    frontmatter: {
+        title: string;
+        description: string;
+    };
+}
+
+const { frontmatter } = Astro.props;
+---
+
+<BaseLayout title={frontmatter.title} description={frontmatter.description}>
+    <div class="max-w-[65ch] mx-auto prose font-serif py-12 px-4">
+        <h1 class="font-bold text-3xl mb-8 font-sans">{frontmatter.title}</h1>
+        <slot />
+    </div>
+</BaseLayout>
