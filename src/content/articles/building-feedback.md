@@ -17,7 +17,7 @@ The initial idea for me was to log my thoughts etc to declutter myself from them
 ## Architecture
 
 This site is built with:
-- **Astro** 9
+- **Astro** 
 - **Markdown** 
 - **Vercel** for hosting currently
 - Giscus for comments
@@ -31,3 +31,5 @@ The distinction is important to me, because how I think Logs, are unpolished cor
 
 #### Updates: (jan 1)
 I recently connected the repository content files to Syncthing and Obsidian on my phone which enables me to update the files nearly in real time (takes like a solid minute) But the idea is basically I don't have to run to my pc everytime I wanna write something down and it'll be updated in my code. 
+
+Updates: I've decided to write this as a comprehensive blog about how I actually built it, little technical aspects.  
