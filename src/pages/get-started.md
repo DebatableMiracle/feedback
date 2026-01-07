@@ -16,7 +16,7 @@ Short, raw, and frequent: Logs are my thinking-out-loud space. They are personal
 
 ### Articles
 
-Refined and researched: Articles are well-structured long-form pieces. Here, I share thorough perspectives and synthesized conclusions on topics I’ve spent time living with. If you're looking for deep dives and "big picture" ideas, start here. They will vary from technical pieces of the work I do, from robotics, AI, ML, RL, electronics (or any other field I get interested in) or some other personal thoughts or ideas about philosophy, psychology and patterns. Though I still would keep these non technical topics a little researched as I understand them.
+Refined and researched: Articles are well-structured long-form pieces. Here, I share thorough perspectives and synthesized conclusions on topics I’ve spent time living with. If you're looking for deep dives and "big picture" ideas, start here. They will vary from technical pieces of the work I do, from robotics, AI, ML, RL, electronics (or any other field I get interested in) or some other personal thoughts or ideas about metaphysics,philosophy, psychology and patterns. Though I still would keep these non technical topics a little researched as I understand them.
 
 ### Projects
 
