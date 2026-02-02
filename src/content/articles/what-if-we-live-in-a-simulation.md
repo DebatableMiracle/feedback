@@ -40,13 +40,13 @@ $$
 If you're having trouble then lemme explain, the probabilities explain a relationship of limits between the variables. Any one term dominates the other variable become statistically insignificant which leads us to 3 possible scenarios.
 
 He argued mathematically, at least one of these must be true:
-#### $f_P \approx 0$
+#### $f_P \approx 0$ *Civilizations barely reach Posthuman*
 Hardly any of the civilisations that reach **posthuman** stage. Some hindrance almost always occurs to developing civilisations that prevent them from reaching that stage. 
 Maybe they nuke themselves to extinction or get addicted to cat Tiktok equivalents.
-#### $f_I \approx 0$
+#### $f_I \approx 0$ *They don't run the simulations*
 They get to posthuman levels but hardly any of the civilisations want to run these simulations. Either they barely care to run these simulations, or maybe it's ethically wrong or some other hard rule exists like Back to the Future!
 Or they turn super-intelligent and decide minimalism is the way to life.
-#### $f_{\text{sim}} \approx 1$
+#### $f_{\text{sim}} \approx 1$ *We do live in a simulation... probably*
 Or they do end up making simulations and run lots of them. And due to probabilities, we statistically are almost living in a simulation, which somehow feels not as heavy as it did last time I pondered over this. Base reality is super rare in this case and well, I don't feel very lucky since I've been conscious. So in other words, an advanced alien super computer is burning out RAM for your "well-articulated" online arguments. 
 
 ### How do we know we are inside a simulation then?
