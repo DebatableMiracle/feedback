@@ -7,6 +7,8 @@ tags: []
 published: true
 project: "Vision Language Model: Overview and Implementation"
 ---
+This article looks super bad sso I'm gonna fix this lol
+
 *This article is a parallel write-up for my initial version of EasyVLA when I decided to build a VLA for my laptop and test it on some benchmarks. I assume future versions would have a different codebase and structure but this is basically how I structured my first versions. They were actually not that bad! Have fun reading and building this if you like*
 
 >  **Project Repository:** https://github.com/DebatableMiracle/EasyVLA  
