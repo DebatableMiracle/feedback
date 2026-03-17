@@ -15,8 +15,10 @@ project: "Vision Language Model: Overview and Implementation"
 # A little bit of intro!
 
 So I have worked a good chunk of my past research works in Reinforcement Learning and RL policies are awesome. I love working with these and engineering their rewards. They're surprisingly clever, and you can engineer teamwork and swarm behaviours which is amazing to think about.
+
 BUT there is a fundamental limitation, you train a model to pick up a block and it'll only know how to pick up a block. You can't just tell it, push the drawer, it doesn't reason or think exactly (which arguably LLMs don't but they take human instructions).
 The policies don't understand language and cannot reason about new tasks outside what they were trained for. Traditional RL policies operate as task specific controllers and not general-purpose agents.
+
 Large Language Models, on the other hand brought us this amazing idea of a model that understands language instructions and can reason through those.While this isn't true reasoning and is closer to pattern completion in embedding space, it still produces behavior that resembles reasoning because of the structure learned within that embedding space.
 
 LLMs brought us an interesting idea: what if robots could use language-model–like reasoning to act? At first glance, it might sound simple — just plug ChatGPT into a robot and let it move around. But that severely underestimates what our brain actually does. Humans constantly perceive and reason about the physical world: depth, weight, friction, shape, and forces when interacting with everyday objects. We intuitively know that picking up a pencil requires different motion and force than picking up a ball. This ability to understand the physical world and generalize across objects and tasks is exactly what Vision-Language-Action (VLA) models aim to achieve.
