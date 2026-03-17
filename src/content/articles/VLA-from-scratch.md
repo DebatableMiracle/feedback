@@ -473,10 +473,6 @@ Even with a constrained setup (RTX 3050, small models, short training runs), the
 
 Got it — that changes the direction completely. You’re not trying to **remove modularity**, you’re trying to **lean into it for experimentation**.
 
-Here’s the corrected version:
-
----
-
 ## Future Work
 
 - Integrate components from different VLA and policy papers into a single modular framework for rapid experimentation
@@ -484,13 +480,3 @@ Here’s the corrected version:
 - Experiment with alternative policy heads (diffusion, autoregressive, regression) under a unified interface
 - Improve multimodal alignment while keeping components interchangeable
 - Expand evaluation across tasks to understand how different design choices affect performance
-## Closing
-
-
-Building this on limited hardware forced trade-offs, but also made the design more explicit and interpretable.
-
-Future versions will likely look very different — larger models, better data, cleaner abstractions — but this was a solid starting point to understand how these systems actually come together.
-
----
-
-If you want, I can also add a **1-paragraph punchy ending** (the kind that sticks in people’s heads / good for recruiters).
