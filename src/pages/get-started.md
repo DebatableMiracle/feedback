@@ -8,7 +8,14 @@ description: "How to get started with this project."
 
 Feedback is my public space for some personal thoughts, ideas and more technical articles. The idea is to build  a digital garden like structure to keep me from overthinking thoughts but also keep refining the articles and longer articles. 
 
-If you’re new here, here is how I organize my writing and you can check out each sections accordingly:
+If you’re new here,check out some of my articles based on your taste:
+I've only written one article yet so no special picks yet lol.
+
+- [what-if-we-live-in-a-simulation](/articles/what-if-we-live-in-a-simulation/)
+
+I'll be adding more articles on varied topics as I go along.
+
+If you wanna learn more about my writing process and structure of the site, here is how I organize my writing and you can check out each sections accordingly:
 
 ### Logs
 
