@@ -467,15 +467,13 @@ class VlaDiffusion(nn.Module):
 
 This project started as a simple question:  
 **can I build a small Vision-Language-Action model that actually works on limited hardware?**
-The answer, at least from this first version, is **yes — to an extent**. The model can perform simple tasks pretty well .
+The answer, at least from this first version, is **yes.. to an extent**. The model can perform simple tasks pretty well .
 
 Even with a constrained setup (RTX 3050, small models, short training runs), the system is able to:
 - combine visual observations and language instructions into a shared representation
 - condition actions on both the task and the robot’s current state
 - produce smoother, multi-step behaviors using a diffusion-based policy
 - all that while consuming less than 1GB VRAM
-
-Got it — that changes the direction completely. You’re not trying to **remove modularity**, you’re trying to **lean into it for experimentation**.
 
 ## Future Work
 
