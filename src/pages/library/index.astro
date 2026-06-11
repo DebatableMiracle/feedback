@@ -1,0 +1,97 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import FormattedDate from "../../components/FormattedDate.astro";
+import { getCollection } from "astro:content";
+
+const notes = (await getCollection("library-notes"))
+	.filter((n) => n.data.published)
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+	.slice(0, 4);
+
+const resources = (await getCollection("library-resources"))
+	.filter((r) => r.data.published)
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+	.slice(0, 4);
+---
+
+<BaseLayout title="Library" description="Notes, resources, and collected things.">
+	<section class="mb-16">
+		<h1 class="text-xl font-bold mb-2">Library</h1>
+		<p class="text-secondary text-lg leading-relaxed">
+			A more open section. Paper notes, curated resources, and collected things
+			that don't quite fit elsewhere.
+		</p>
+	</section>
+
+	<section class="mb-16">
+		<h2
+			class="text-sm font-semibold uppercase tracking-wider text-secondary mb-6 border-b border-border pb-2"
+		>
+			Notes
+		</h2>
+		{
+			notes.length > 0 ? (
+				<ul class="space-y-4">
+					{notes.map((note) => (
+						<li class="flex justify-between items-baseline group">
+							<a
+								href={`/library/notes/${note.slug}/`}
+								class="text-lg font-serif font-semibold group-hover:text-accent transition-colors"
+							>
+								{note.data.title}
+							</a>
+							<span class="text-sm font-mono text-secondary">
+								<FormattedDate date={note.data.date} />
+							</span>
+						</li>
+					))}
+				</ul>
+			) : (
+				<p class="text-secondary text-sm">Nothing here yet.</p>
+			)
+		}
+		<div class="mt-6 text-sm">
+			<a
+				href="/library/notes"
+				class="text-secondary hover:text-accent transition-colors"
+				>View all notes →</a
+			>
+		</div>
+	</section>
+
+	<section class="mb-16">
+		<h2
+			class="text-sm font-semibold uppercase tracking-wider text-secondary mb-6 border-b border-border pb-2"
+		>
+			Resources
+		</h2>
+		{
+			resources.length > 0 ? (
+				<ul class="space-y-4">
+					{resources.map((res) => (
+						<li class="flex justify-between items-baseline group">
+							<a
+								href={`/library/resources/${res.slug}/`}
+								class="text-lg font-serif font-semibold group-hover:text-accent transition-colors"
+							>
+								{res.data.title}
+							</a>
+							<span class="text-sm font-mono text-secondary">
+								<FormattedDate date={res.data.date} />
+							</span>
+						</li>
+					))}
+				</ul>
+			) : (
+				<p class="text-secondary text-sm">Nothing here yet.</p>
+			)
+		}
+		<div class="mt-6 text-sm">
+			<a
+				href="/library/resources"
+				class="text-secondary hover:text-accent transition-colors"
+				>View all resources →</a
+			>
+		</div>
+	</section>
+</BaseLayout>

@@ -66,11 +66,29 @@ async function processChanges() {
                 }
 
                 // Parse Frontmatter
-                const { data } = matter(fileContent);
+                const parsed = matter(fileContent);
+                const { data } = parsed;
                 const isPublished = data.published === true;
 
                 if (isPublished) {
-                    console.log(`[PUBLISH] ${path.basename(filePath)} is valid for publish.`);
+                    // Check if this file was previously unpublished (first publish)
+                    let wasUnpublished = false;
+                    try {
+                        const prevContent = await git.show([`HEAD:${path.relative(REPO_ROOT, filePath)}`]);
+                        const prevData = matter(prevContent).data;
+                        wasUnpublished = prevData.published !== true;
+                    } catch {
+                        wasUnpublished = true; // file wasn't in git before
+                    }
+
+                    if (wasUnpublished) {
+                        const now = new Date();
+                        const updated = matter.stringify(parsed.content, { ...data, date: now });
+                        await fs.writeFile(filePath, updated, 'utf8');
+                        console.log(`[PUBLISH] ${path.basename(filePath)} — date set to ${now.toISOString()}`);
+                    } else {
+                        console.log(`[PUBLISH] ${path.basename(filePath)} is valid for publish.`);
+                    }
                     filesToCommit.push(filePath);
                 } else {
                     // If published: false

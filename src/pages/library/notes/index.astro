@@ -1,0 +1,39 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import FormattedDate from "../../../components/FormattedDate.astro";
+import { getCollection } from "astro:content";
+
+const notes = (await getCollection("library-notes"))
+	.filter((n) => n.data.published)
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout title="Notes" description="Paper reviews, lighter writing, and half-formed ideas.">
+	<div class="mb-8">
+		<a href="/library" class="text-sm font-mono text-secondary hover:text-accent transition-colors">← Library</a>
+	</div>
+	<h1 class="text-3xl font-serif font-bold mb-12">Notes</h1>
+	{
+		notes.length > 0 ? (
+			<ul class="space-y-8">
+				{notes.map((note) => (
+					<li class="group">
+						<a href={`/library/notes/${note.slug}/`} class="block mb-2">
+							<div class="flex justify-between items-baseline">
+								<span class="text-xl font-serif font-semibold text-text group-hover:text-accent transition-colors">
+									{note.data.title}
+								</span>
+								<span class="text-sm font-mono text-secondary">
+									<FormattedDate date={note.data.date} />
+								</span>
+							</div>
+						</a>
+						<p class="text-secondary leading-relaxed">{note.data.description}</p>
+					</li>
+				))}
+			</ul>
+		) : (
+			<p class="text-secondary">Nothing here yet.</p>
+		)
+	}
+</BaseLayout>

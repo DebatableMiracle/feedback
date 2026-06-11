@@ -1,0 +1,39 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import FormattedDate from "../../../components/FormattedDate.astro";
+import { getCollection } from "astro:content";
+
+const resources = (await getCollection("library-resources"))
+	.filter((r) => r.data.published)
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout title="Resources" description="Curated links, lectures, and references worth keeping.">
+	<div class="mb-8">
+		<a href="/library" class="text-sm font-mono text-secondary hover:text-accent transition-colors">← Library</a>
+	</div>
+	<h1 class="text-3xl font-serif font-bold mb-12">Resources</h1>
+	{
+		resources.length > 0 ? (
+			<ul class="space-y-8">
+				{resources.map((res) => (
+					<li class="group">
+						<a href={`/library/resources/${res.slug}/`} class="block mb-2">
+							<div class="flex justify-between items-baseline">
+								<span class="text-xl font-serif font-semibold text-text group-hover:text-accent transition-colors">
+									{res.data.title}
+								</span>
+								<span class="text-sm font-mono text-secondary">
+									<FormattedDate date={res.data.date} />
+								</span>
+							</div>
+						</a>
+						<p class="text-secondary leading-relaxed">{res.data.description}</p>
+					</li>
+				))}
+			</ul>
+		) : (
+			<p class="text-secondary">Nothing here yet.</p>
+		)
+	}
+</BaseLayout>

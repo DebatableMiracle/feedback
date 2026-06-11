@@ -1,0 +1,48 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import FormattedDate from "../../../components/FormattedDate.astro";
+
+export async function getStaticPaths() {
+	const resources = await getCollection("library-resources");
+	return resources.map((res) => ({
+		params: { slug: res.slug },
+		props: res,
+	}));
+}
+
+type Props = CollectionEntry<"library-resources">;
+
+const res = Astro.props;
+const { Content } = await res.render();
+---
+
+<BaseLayout title={res.data.title} description={res.data.description}>
+	<article class="max-w-[65ch] mx-auto">
+		<div class="mb-8">
+			<a href="/library/resources" class="text-sm font-mono text-secondary hover:text-accent transition-colors">← Resources</a>
+		</div>
+		<header class="mb-12">
+			<h1 class="text-4xl font-serif font-bold mb-4 leading-tight">
+				{res.data.title}
+			</h1>
+			<div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mt-6 text-sm font-mono text-secondary">
+				{
+					res.data.tags && (
+						<div class="flex flex-wrap gap-2">
+							{res.data.tags.map((tag) => (
+								<a href={`/tags/${tag}`} class="hover:text-accent">
+									#{tag}
+								</a>
+							))}
+						</div>
+					)
+				}
+				<FormattedDate date={res.data.date} class="shrink-0" />
+			</div>
+		</header>
+		<div class="prose prose-lg font-serif mx-auto">
+			<Content />
+		</div>
+	</article>
+</BaseLayout>
