@@ -9,7 +9,7 @@ tags:
 published: true
 ---
 
-
+I am planning to finish these lectures this month! would be greatt
 ## Links
 
 - [Robot Learning course](https://cvg.ethz.ch/lectures/Robot-Learning/) — short note on why it's useful
