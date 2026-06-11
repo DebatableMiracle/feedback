@@ -16,5 +16,4 @@ I am planning to finish these lectures this month! would be greatt
 
 ## Notes
 
-Any additional context goes here.
-here.
+for now im keeping this text emptyy
