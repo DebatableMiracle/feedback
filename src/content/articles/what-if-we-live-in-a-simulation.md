@@ -59,7 +59,7 @@ Well, there's not really a solid conclusion to this theory because it puts some 
 I mean does the simulation really need to simulate everyone or just you? Maybe all this is a simulation of your own qualia and you're never meant to solve this while it's being rubbed in your face. It's also the argument for solipsism, the philosophical idea that only one's own mind is sure to exist but that's just plain evil.
 Speaking of which, I am pretty sure once they do get to posthuman level, there's still no way to figure out if THEY are living inside of a simulation, so I guess doesn't matter which end of the stairs you are at, you never really know which is base reality. 
 
-Everything said, the simulation didn't exactly come with instruction manual so just make the choices that make it worth rendering to you. 
+Everything said, the simulation didn't exactly come with instruction manual so just make the choices that make it worth ren, ering to you. 
 ### Sources & Further Reading if you liked this
 
 - *Are You Living in a Computer Simulation?*  
