@@ -1,0 +1,50 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const allPapers = (await getCollection("papers"))
+	.filter((p) => p.data.published)
+	.sort((a, b) => a.data.title.localeCompare(b.data.title));
+
+const byTopic = allPapers.reduce((acc, paper) => {
+	const t = paper.data.topic;
+	if (!acc[t]) acc[t] = [];
+	acc[t].push(paper);
+	return acc;
+}, {} as Record<string, typeof allPapers>);
+
+const topics = Object.keys(byTopic).sort();
+---
+
+<BaseLayout title="Papers" description="Papers I've read, organized by topic.">
+	<div class="mb-8">
+		<a href="/library" class="text-sm font-mono text-secondary hover:text-accent transition-colors">← Library</a>
+	</div>
+	<h1 class="text-3xl font-serif font-bold mb-2">Papers</h1>
+	<p class="text-secondary mb-12">{allPapers.length} papers across {topics.length} topics</p>
+
+	{topics.map((topic) => (
+		<section class="mb-12">
+			<h2 class="text-sm font-semibold uppercase tracking-wider text-secondary mb-6 border-b border-border pb-2">
+				{topic}
+			</h2>
+			<ul class="space-y-6">
+				{byTopic[topic].map((paper) => (
+					<li class="group">
+						<a href={`/library/papers/${paper.slug}/`} class="block">
+							<div class="flex justify-between items-baseline gap-4">
+								<span class="font-serif font-semibold text-text group-hover:text-accent transition-colors leading-snug">
+									{paper.data.title}
+								</span>
+								<span class="text-sm font-mono text-secondary shrink-0">
+									{paper.data.authors} · {paper.data.year}
+								</span>
+							</div>
+							<p class="text-secondary text-sm mt-1 leading-relaxed">{paper.data.tldr}</p>
+						</a>
+					</li>
+				))}
+			</ul>
+		</section>
+	))}
+</BaseLayout>

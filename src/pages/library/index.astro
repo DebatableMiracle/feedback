@@ -12,6 +12,13 @@ const resources = (await getCollection("library-resources"))
 	.filter((r) => r.data.published)
 	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
 	.slice(0, 4);
+
+const recentPapers = (await getCollection("papers"))
+	.filter((p) => p.data.published)
+	.sort((a, b) => b.data.year - a.data.year)
+	.slice(0, 4);
+
+const totalPapers = (await getCollection("papers")).filter((p) => p.data.published).length;
 ---
 
 <BaseLayout title="Library" description="Notes, resources, and collected things.">
@@ -56,6 +63,35 @@ const resources = (await getCollection("library-resources"))
 				class="text-secondary hover:text-accent transition-colors"
 				>View all notes →</a
 			>
+		</div>
+	</section>
+
+	<section class="mb-16">
+		<h2
+			class="text-sm font-semibold uppercase tracking-wider text-secondary mb-6 border-b border-border pb-2"
+		>
+			Papers
+		</h2>
+		<ul class="space-y-4">
+			{recentPapers.map((paper) => (
+				<li class="group">
+					<a href={`/library/papers/${paper.slug}/`} class="block">
+						<div class="flex justify-between items-baseline gap-4">
+							<span class="font-serif font-semibold group-hover:text-accent transition-colors leading-snug">
+								{paper.data.title}
+							</span>
+							<span class="text-sm font-mono text-secondary shrink-0">
+								{paper.data.authors} · {paper.data.year}
+							</span>
+						</div>
+					</a>
+				</li>
+			))}
+		</ul>
+		<div class="mt-6 text-sm">
+			<a href="/library/papers" class="text-secondary hover:text-accent transition-colors">
+				View all {totalPapers} papers →
+			</a>
 		</div>
 	</section>
 

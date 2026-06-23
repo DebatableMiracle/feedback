@@ -1,0 +1,69 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+	const papers = await getCollection("papers");
+	return papers.map((paper) => ({
+		params: { slug: paper.slug },
+		props: paper,
+	}));
+}
+
+type Props = CollectionEntry<"papers">;
+
+const paper = Astro.props;
+const { Content } = await paper.render();
+const hasNotes = (paper.body ?? "").trim().length > 0;
+---
+
+<BaseLayout title={paper.data.title} description={paper.data.tldr}>
+	<article class="max-w-[65ch] mx-auto">
+		<div class="mb-8">
+			<a href="/library/papers" class="text-sm font-mono text-secondary hover:text-accent transition-colors">← Papers</a>
+		</div>
+
+		<header class="mb-10">
+			<p class="text-sm font-mono text-secondary mb-3">{paper.data.topic}</p>
+			<h1 class="text-3xl font-serif font-bold leading-tight mb-4">
+				{paper.data.title}
+			</h1>
+			<div class="flex flex-wrap gap-x-6 gap-y-1 text-sm font-mono text-secondary">
+				<span>{paper.data.authors}</span>
+				<span>{paper.data.year}</span>
+				{paper.data.url && (
+					<a href={paper.data.url} target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors">
+						paper ↗
+					</a>
+				)}
+			</div>
+		</header>
+
+		<div class="mb-8 border-l-2 border-border pl-4">
+			<p class="text-secondary leading-relaxed">{paper.data.tldr}</p>
+		</div>
+
+		{paper.data.source && (
+			<p class="text-sm font-mono text-secondary mb-10">
+				via {paper.data.source}
+			</p>
+		)}
+
+		{paper.data.tags && paper.data.tags.length > 0 && (
+			<div class="flex flex-wrap gap-2 text-sm font-mono text-secondary mb-10">
+				{paper.data.tags.map((tag) => (
+					<span>#{tag}</span>
+				))}
+			</div>
+		)}
+
+		{hasNotes && (
+			<div class="border-t border-border pt-10">
+				<h2 class="text-sm font-semibold uppercase tracking-wider text-secondary mb-6">Notes</h2>
+				<div class="prose prose-lg font-serif mx-auto">
+					<Content />
+				</div>
+			</div>
+		)}
+	</article>
+</BaseLayout>
