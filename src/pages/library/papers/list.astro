@@ -37,7 +37,11 @@ const topics = Object.keys(byTopic).sort();
 								<span class="font-serif font-semibold text-text group-hover:text-accent transition-colors leading-snug">
 									{paper.data.title}
 								</span>
-								<span class="text-sm font-mono text-secondary shrink-0">
+								<span class="text-sm font-mono text-secondary shrink-0 flex items-center gap-3">
+									{paper.data.read
+										? <span title="read" style="color:#666">●</span>
+										: <span title="unread" style="color:#d0d0d0">●</span>
+									}
 									{paper.data.authors} · {paper.data.year}
 								</span>
 							</div>

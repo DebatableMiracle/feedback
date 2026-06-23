@@ -22,6 +22,7 @@ const nodes = [
 		tags: p.data.tags ?? [],
 		tldr: p.data.tldr,
 		url: `/library/papers/${p.slug}/`,
+		read: p.data.read,
 		type: "paper",
 	})),
 ];
@@ -127,10 +128,12 @@ const graphData = JSON.stringify({ nodes, links });
 				})
 		);
 
-	// circles
+	// circles — read: #666 (solid), unread: #d0d0d0 (faint)
+	const paperColor = (d) => d.read ? "#666666" : "#d0d0d0";
+
 	node.append("circle")
 		.attr("r", (d) => d.type === "topic" ? 10 : 5)
-		.attr("fill", (d) => d.type === "topic" ? "#111111" : "#aaaaaa")
+		.attr("fill", (d) => d.type === "topic" ? "#111111" : paperColor(d))
 		.attr("stroke", "none")
 		.on("mouseover", function (event, d) {
 			if (d.type !== "paper") return;
@@ -148,7 +151,7 @@ const graphData = JSON.stringify({ nodes, links });
 		})
 		.on("mouseout", function (event, d) {
 			if (d.type !== "paper") return;
-			d3.select(this).attr("fill", "#aaaaaa");
+			d3.select(this).attr("fill", paperColor(d));
 			tooltip.style.opacity = "0";
 		})
 		.on("click", (event, d) => {
