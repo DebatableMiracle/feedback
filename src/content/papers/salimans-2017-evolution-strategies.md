@@ -14,6 +14,7 @@ tldr: >-
   ES as a parallelizable alternative to RL — no backprop through time,
   embarrassingly parallel, and competitive with A3C on Atari and MuJoCo. Reopens
   the evolution vs. gradient debate.
+read: false
 published: true
 date: 2026-06-23T21:40:37.809Z
 ---

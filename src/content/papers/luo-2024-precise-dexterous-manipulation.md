@@ -17,6 +17,7 @@ tldr: >-
   HITL RL for dexterous manipulation — human interventions during training guide
   the policy toward fine-grained, precise behaviors that pure RL struggles to
   discover.
+read: false
 published: true
 date: 2026-06-23T21:40:37.817Z
 ---

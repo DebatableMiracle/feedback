@@ -16,6 +16,7 @@ tldr: >-
   Pre-trained visual representations transfer surprisingly well to visuomotor IL
   — you don't need task-specific visual training to get strong manipulation
   policies.
+read: false
 published: true
 date: 2026-06-23T21:40:37.798Z
 ---

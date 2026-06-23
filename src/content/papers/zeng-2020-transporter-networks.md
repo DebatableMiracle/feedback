@@ -16,6 +16,7 @@ tldr: >-
   Spatial action maps + cross-attention for pick-and-place. Exploits the
   structure of rearrangement tasks for sample-efficient manipulation learning
   from very few demos.
+read: false
 published: true
 date: 2026-06-23T21:40:37.803Z
 ---

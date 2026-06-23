@@ -12,6 +12,7 @@ source: 'ETHZ Robot Learning 2026 — Week 2: Robot Control & MDPs'
 tldr: >-
   Simple random search with normalization matches or beats model-free deep RL on
   MuJoCo tasks. A reality check on how much complexity is actually needed.
+read: false
 published: true
 date: 2026-06-23T21:40:37.777Z
 ---
