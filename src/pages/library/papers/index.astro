@@ -2,49 +2,179 @@
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
-const allPapers = (await getCollection("papers"))
-	.filter((p) => p.data.published)
-	.sort((a, b) => a.data.title.localeCompare(b.data.title));
+const papers = (await getCollection("papers")).filter((p) => p.data.published);
 
-const byTopic = allPapers.reduce((acc, paper) => {
-	const t = paper.data.topic;
-	if (!acc[t]) acc[t] = [];
-	acc[t].push(paper);
-	return acc;
-}, {} as Record<string, typeof allPapers>);
+// Build nodes: topic nodes + paper nodes
+const topics = [...new Set(papers.map((p) => p.data.topic))];
 
-const topics = Object.keys(byTopic).sort();
+const nodes = [
+	...topics.map((topic) => ({
+		id: `topic:${topic}`,
+		label: topic,
+		type: "topic",
+	})),
+	...papers.map((p) => ({
+		id: p.slug,
+		label: p.data.title,
+		authors: p.data.authors,
+		year: p.data.year,
+		topic: p.data.topic,
+		tags: p.data.tags ?? [],
+		tldr: p.data.tldr,
+		url: `/library/papers/${p.slug}/`,
+		type: "paper",
+	})),
+];
+
+// Build edges: paper→topic + paper↔paper via shared tags
+const links: { source: string; target: string }[] = [];
+
+papers.forEach((p) => {
+	links.push({ source: p.slug, target: `topic:${p.data.topic}` });
+});
+
+for (let i = 0; i < papers.length; i++) {
+	for (let j = i + 1; j < papers.length; j++) {
+		const tagsI = papers[i].data.tags ?? [];
+		const tagsJ = papers[j].data.tags ?? [];
+		const shared = tagsI.filter((t) => tagsJ.includes(t));
+		if (shared.length > 0) {
+			links.push({ source: papers[i].slug, target: papers[j].slug });
+		}
+	}
+}
+
+const graphData = JSON.stringify({ nodes, links });
 ---
 
-<BaseLayout title="Papers" description="Papers I've read, organized by topic.">
-	<div class="mb-8">
+<BaseLayout title="Papers — Graph" description="Papers I've read, as a graph.">
+	<div class="mb-8 flex justify-between items-center">
 		<a href="/library" class="text-sm font-mono text-secondary hover:text-accent transition-colors">← Library</a>
+		<a href="/library/papers/list" class="text-sm font-mono text-secondary hover:text-accent transition-colors">List view →</a>
 	</div>
-	<h1 class="text-3xl font-serif font-bold mb-2">Papers</h1>
-	<p class="text-secondary mb-12">{allPapers.length} papers across {topics.length} topics</p>
+	<div class="mb-6">
+		<h1 class="text-3xl font-serif font-bold mb-1">Papers</h1>
+		<p class="text-secondary text-sm font-mono">{papers.length} papers · drag to explore · click to open</p>
+	</div>
 
-	{topics.map((topic) => (
-		<section class="mb-12">
-			<h2 class="text-sm font-semibold uppercase tracking-wider text-secondary mb-6 border-b border-border pb-2">
-				{topic}
-			</h2>
-			<ul class="space-y-6">
-				{byTopic[topic].map((paper) => (
-					<li class="group">
-						<a href={`/library/papers/${paper.slug}/`} class="block">
-							<div class="flex justify-between items-baseline gap-4">
-								<span class="font-serif font-semibold text-text group-hover:text-accent transition-colors leading-snug">
-									{paper.data.title}
-								</span>
-								<span class="text-sm font-mono text-secondary shrink-0">
-									{paper.data.authors} · {paper.data.year}
-								</span>
-							</div>
-							<p class="text-secondary text-sm mt-1 leading-relaxed">{paper.data.tldr}</p>
-						</a>
-					</li>
-				))}
-			</ul>
-		</section>
-	))}
+	<!-- break out of the 65ch container for the graph -->
+	<div id="graph-wrap" style="width: 100vw; position: relative; left: 50%; transform: translateX(-50%); max-width: 860px;">
+		<svg id="graph" style="width: 100%; height: 520px; display: block; background: #f9f9f9;"></svg>
+	</div>
+
+	<div id="tooltip" style="
+		position: fixed;
+		background: #f9f9f9;
+		border: 1px solid #e5e5e5;
+		padding: 10px 14px;
+		max-width: 260px;
+		pointer-events: none;
+		opacity: 0;
+		transition: opacity 0.1s;
+		z-index: 1000;
+		font-family: Inter, system-ui, sans-serif;
+	"></div>
+
+	<script type="application/json" id="graph-data" set:html={graphData}></script>
 </BaseLayout>
+
+<script is:inline src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script is:inline>
+(function () {
+	const raw = document.getElementById("graph-data").textContent;
+	const data = JSON.parse(raw);
+	const tooltip = document.getElementById("tooltip");
+
+	const container = document.getElementById("graph");
+	const width = container.clientWidth || 800;
+	const height = 520;
+
+	const svg = d3.select("#graph")
+		.attr("viewBox", `0 0 ${width} ${height}`)
+		.attr("preserveAspectRatio", "xMidYMid meet");
+
+	// ── forces ──────────────────────────────────────────────────────
+	const simulation = d3.forceSimulation(data.nodes)
+		.force("link", d3.forceLink(data.links).id((d) => d.id).distance(90).strength(0.4))
+		.force("charge", d3.forceManyBody().strength(-260))
+		.force("center", d3.forceCenter(width / 2, height / 2))
+		.force("collision", d3.forceCollide().radius((d) => d.type === "topic" ? 48 : 18));
+
+	// ── edges ────────────────────────────────────────────────────────
+	const link = svg.append("g")
+		.selectAll("line")
+		.data(data.links)
+		.join("line")
+		.attr("stroke", "#e5e5e5")
+		.attr("stroke-width", 1);
+
+	// ── nodes ────────────────────────────────────────────────────────
+	const node = svg.append("g")
+		.selectAll("g")
+		.data(data.nodes)
+		.join("g")
+		.style("cursor", (d) => d.type === "paper" ? "pointer" : "default")
+		.call(
+			d3.drag()
+				.on("start", (event, d) => {
+					if (!event.active) simulation.alphaTarget(0.3).restart();
+					d.fx = d.x; d.fy = d.y;
+				})
+				.on("drag", (event, d) => { d.fx = event.x; d.fy = event.y; })
+				.on("end", (event, d) => {
+					if (!event.active) simulation.alphaTarget(0);
+					d.fx = null; d.fy = null;
+				})
+		);
+
+	// circles
+	node.append("circle")
+		.attr("r", (d) => d.type === "topic" ? 10 : 5)
+		.attr("fill", (d) => d.type === "topic" ? "#111111" : "#aaaaaa")
+		.attr("stroke", "none")
+		.on("mouseover", function (event, d) {
+			if (d.type !== "paper") return;
+			d3.select(this).attr("fill", "#111111");
+			tooltip.style.opacity = "1";
+			tooltip.innerHTML = `
+				<div style="font-weight:600;color:#111;margin-bottom:3px;font-size:13px;line-height:1.4">${d.label}</div>
+				<div style="color:#666;font-size:11px;font-family:'JetBrains Mono',monospace;margin-bottom:6px">${d.authors} · ${d.year}</div>
+				<div style="color:#666;font-size:12px;line-height:1.5">${d.tldr}</div>
+			`;
+		})
+		.on("mousemove", (event) => {
+			tooltip.style.left = (event.clientX + 14) + "px";
+			tooltip.style.top = (event.clientY - 14) + "px";
+		})
+		.on("mouseout", function (event, d) {
+			if (d.type !== "paper") return;
+			d3.select(this).attr("fill", "#aaaaaa");
+			tooltip.style.opacity = "0";
+		})
+		.on("click", (event, d) => {
+			if (d.type === "paper") window.location.href = d.url;
+		});
+
+	// topic labels
+	node.filter((d) => d.type === "topic")
+		.append("text")
+		.text((d) => d.label.toUpperCase())
+		.attr("x", 14)
+		.attr("dy", "0.35em")
+		.attr("font-family", "'JetBrains Mono', monospace")
+		.attr("font-size", "10px")
+		.attr("font-weight", "600")
+		.attr("letter-spacing", "0.08em")
+		.attr("fill", "#111111");
+
+	// ── tick ─────────────────────────────────────────────────────────
+	simulation.on("tick", () => {
+		link
+			.attr("x1", (d) => d.source.x)
+			.attr("y1", (d) => d.source.y)
+			.attr("x2", (d) => d.target.x)
+			.attr("y2", (d) => d.target.y);
+		node.attr("transform", (d) => `translate(${d.x},${d.y})`);
+	});
+})();
+</script>
