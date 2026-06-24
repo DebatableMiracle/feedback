@@ -18,6 +18,8 @@ date: 2026-06-23T21:40:37.784Z
 ---
 This paper talks a lot about the failures and more importantly the challenges of Deep Reinforcement Learning, came out in 2018 it talks about the issues back then about sample inefficiency, reward structuring/hacking, generalization, I really like Alex Irpan, been exploring his works for a while now. Anyways the blogpost talks a lot about why RL was, and still is, so inneficient at so many tasks and is usually a narrow fit for a single task rather than the dream of AGI  which I personally beleive in too. The idea that key to a single generalizable policy comes from RL, even after so much VLAs and IL working way better than RL, I kinda beleive in it too. Although he did not have  the empirical results I see today, I think he also dealt with the same issue I am dealing with lol. RL kinda sucks!
 
+One of the cool observation is how unstable 
+
 
 "A friend is training a simulated robot arm to reach towards a point above a table. It turns out the point was defined _with respect to the table_, and the table wasn’t anchored to anything. The policy learned to slam the table really hard, making the table fall over, which moved the target point too. The target point _just so happened_ to fall next to the end of the arm."
 
