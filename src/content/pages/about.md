@@ -5,7 +5,9 @@ published: true
 date: 2026-06-24T19:30:29.809Z
 ---
 
-Hi I'm Anubhav Verma, and this is my personal website for practicing writing and just put my opinions and thoughts around. I work on Physical AI, VLAs, RL for robots. I like watching and playing football, I like a lots of music, I love watching movies nowadays and also I am an absolute superhero media nerd. I'd liter  I update the structure often depending on how I wanna structure my life then.
+Hi I'm Anubhav Verma, and this is my personal website for practising writing and just put my opinions and thoughts around. I work on Physical AI, VLAs, RL for robots. I like watching and playing football, I like a lots of music, I love watching movies nowadays and also I am an absolute superhero media nerd. I'd literally recommend you to watch Invincible right now. 
+
+  I update the structure often depending on how I wanna structure my life then.
 
 I decided to distinguish these thoughts among two modes of writing for now:
 
