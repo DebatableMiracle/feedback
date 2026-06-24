@@ -28,3 +28,6 @@ This paper talks a lot about the failures and more importantly the challenges of
 > Originally considered by Allied scientists in World War II, it proved so intractable that, according to Peter Whittle, the problem was proposed to be dropped over Germany so that German scientists could also waste their time on it.
 
 (Reference: [Q-Learning for Bandit Problems, Duff 1995](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.57.1916&rep=rep1&type=pdf))"
+
+
+"Deep RL is popular because it’s the only area in ML where it’s socially acceptable to train on the test set." - Quote to live by
