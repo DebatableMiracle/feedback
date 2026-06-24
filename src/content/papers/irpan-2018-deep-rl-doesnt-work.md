@@ -31,3 +31,5 @@ This paper talks a lot about the failures and more importantly the challenges of
 
 
 "Deep RL is popular because it’s the only area in ML where it’s socially acceptable to train on the test set." - Quote to live by
+
+(See [Universal Value Function Approximators, Schaul et al, ICML 2015](http://proceedings.mlr.press/v37/schaul15.pdf).
