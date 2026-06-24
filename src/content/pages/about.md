@@ -14,6 +14,6 @@ I decided to distinguish these thoughts among two modes of writing for now:
 - **Logs**: Daily, timestamped entries. Unfiltered, unedited, and immediate notes for myself. The input stream.
 - **Articles**: Synthesized thoughts, essays, and technical deep dives. Refined, edited, and enduring. The output signal.
 
-The articles and ideas mostly span from every domain I like and I consider myself a multipotentialite, I appreciate lots of things so logically, I am planning to write about AI, Robotics since at heart I consider myself an engineer purist. I also like philosophy, metaphysics, art, music, movies, football and all kinds of things that involve creating.
+The articles and ideas mostly span from every domain I like and I consider myself a multipotentialite or polymath or just easily bored maybe? I appreciate lots of things so logically, I am planning to write about AI, Robotics since at heart I consider myself an engineer purist. I also like philosophy, metaphysics, art, music, movies, football and all kinds of things that involve creating.
 
 There's also a [Library](/library) — a more open section for paper notes, saved resources, and things that don't fit neatly into articles or logs.
