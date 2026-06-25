@@ -1,7 +1,7 @@
 ---
 title: AlexIrpan.com
 description: 'Alex Irpan, "Why Deep RL doesn''t work" author (sorry alex)'
-date: 2026-06-25T21:09:50.315Z
+date: 2026-06-25T21:20:10.823Z
 tags: []
 published: true
 ---
