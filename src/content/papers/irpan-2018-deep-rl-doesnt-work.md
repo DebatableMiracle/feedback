@@ -24,6 +24,8 @@ Anyways the paper also talks about how greatly volatile the reward engineering t
 
 The blog then talks about what other ways he thinks Deep RL might work, which is also interesting. He talked about possibility of World models fixing the sample inefficiency, which is one of the directions I'm highly interested in it. 
 
+Also SFT fine tuned with RL but my issue with these methods is, it takes away exploration to just being a fine tuning method. In some cases, it's good but in a broader sense of problems we're trying to solve it's more of tape and glue method to me. Which again, is not bad as per se, but yk I always imagine some amazing general smart agent that can think like us, how hard can it be? (very hard)
+
 #### Some selected texts from the article that I likedd
 "A friend is training a simulated robot arm to reach towards a point above a table. It turns out the point was defined _with respect to the table_, and the table wasn’t anchored to anything. The policy learned to slam the table really hard, making the table fall over, which moved the target point too. The target point _just so happened_ to fall next to the end of the arm."
 
