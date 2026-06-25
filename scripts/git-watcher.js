@@ -10,16 +10,18 @@ const REPO_ROOT = process.cwd();
 const CONTENT_DIR = path.join(REPO_ROOT, 'src/content');
 const git = simpleGit(REPO_ROOT);
 
-// User Configuration
-const DEBOUNCE_MS = 1000 * 60 * 5; // 5 minutes — wait until editing has actually stopped
+// Publish toggle (published flip) → fast. Content edits → slow.
+const PUBLISH_DEBOUNCE_MS = 10_000;
+const EDIT_DEBOUNCE_MS = 1000 * 60 * 5;
 const COMMIT_MSG_PREFIX = 'Auto-sync';
 
 console.log(`Starting Git Watcher for ${CONTENT_DIR}...`);
-console.log(`Battery Saver Mode: polling disabled, waiting ${DEBOUNCE_MS}ms after changes.`);
+console.log(`Publish toggle: ${PUBLISH_DEBOUNCE_MS / 1000}s debounce. Edits: ${EDIT_DEBOUNCE_MS / 1000}s debounce.`);
 
 // Application state
 let pendingFiles = new Set();
 let timer = null;
+let scheduledDelay = EDIT_DEBOUNCE_MS;
 
 const watcher = chokidar.watch(CONTENT_DIR, {
     ignored: /(^|[\/\\])(\.|\.stfolder|node_modules)/, // Ignore dotfiles, syncthing folders, node_modules
@@ -34,6 +36,36 @@ const watcher = chokidar.watch(CONTENT_DIR, {
 
 function isPublished(data) {
     return data.published === true || data.published === 'true';
+}
+
+function toRepoPath(filePath) {
+    return path.relative(REPO_ROOT, filePath);
+}
+
+// True when published state changed vs git — the intentional publish/unpublish signal
+async function isPublishSignal(filePath) {
+    const rel = toRepoPath(filePath);
+
+    try {
+        const content = await fs.readFile(filePath, 'utf8');
+        const published = isPublished(matter(content).data);
+        try {
+            const prev = await git.show([`HEAD:${rel}`]);
+            return published !== isPublished(matter(prev).data);
+        } catch {
+            return published; // new file: signal only if publishing
+        }
+    } catch (e) {
+        if (e.code === 'ENOENT') {
+            try {
+                await git.raw(['ls-files', '--error-unmatch', rel]);
+                return true; // deleted a tracked file
+            } catch {
+                return false;
+            }
+        }
+        throw e;
+    }
 }
 
 // Main processing logic
@@ -136,14 +168,23 @@ async function processChanges() {
     }
 }
 
-// Queue system to debounce rapid syncthing writes
-function onFileChange(filePath) {
+// Queue: publish toggle → 10s, content edit → 5min
+async function onFileChange(filePath) {
     if (!filePath) return;
-    console.log(`Detected change: ${filePath}`);
+    const rel = toRepoPath(filePath);
+    console.log(`Detected change: ${rel}`);
     pendingFiles.add(filePath);
 
+    const delay = (await isPublishSignal(filePath)) ? PUBLISH_DEBOUNCE_MS : EDIT_DEBOUNCE_MS;
+    scheduledDelay = Math.min(scheduledDelay, delay);
+
     if (timer) clearTimeout(timer);
-    timer = setTimeout(processChanges, DEBOUNCE_MS);
+    timer = setTimeout(() => {
+        scheduledDelay = EDIT_DEBOUNCE_MS;
+        processChanges();
+    }, scheduledDelay);
+
+    console.log(delay === PUBLISH_DEBOUNCE_MS ? `Publish signal — sync in ${scheduledDelay / 1000}s` : `Edit — sync in ${scheduledDelay / 1000}s`);
 }
 
 watcher
