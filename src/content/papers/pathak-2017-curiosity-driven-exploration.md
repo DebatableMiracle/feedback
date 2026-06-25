@@ -2,7 +2,7 @@
 title: Curiosity-Driven Exploration by Self-Supervised Prediction
 authors: Pathak et al.
 year: 2017
-topic: Reinforcement Learning
+topic: Model-Free RL
 tags:
   - exploration
   - intrinsic-motivation

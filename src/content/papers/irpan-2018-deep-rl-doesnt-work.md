@@ -2,9 +2,8 @@
 title: Deep Reinforcement Learning Doesn't Work Yet
 authors: Irpan
 year: 2018
-topic: Reinforcement Learning
+topic: Model-Free RL
 tags:
-  - critique
   - sample-efficiency
 url: https://www.alexirpan.com/2018/02/14/rl-hard.html
 source: "ETHZ Robot Learning 2026 — Week 2: Robot Control & MDPs"

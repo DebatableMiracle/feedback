@@ -2,10 +2,10 @@
 title: Simple Random Search Provides a Competitive Approach to Reinforcement Learning
 authors: Mania et al.
 year: 2018
-topic: Reinforcement Learning
+topic: Model-Free RL
 tags:
-  - optimization
-  - policy-gradient
+  - evolution-strategies
+  - sample-efficiency
 url: 'https://arxiv.org/abs/1803.07055'
 source: 'ETHZ Robot Learning 2026 — Week 2: Robot Control & MDPs'
 tldr: >-

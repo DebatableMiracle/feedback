@@ -2,7 +2,7 @@
 title: Q-Learning for Bandit Problems
 authors: Duff
 year: 1995
-topic: Reinforcement Learning
+topic: Model-Free RL
 tags:
   - q-learning
   - bandits

@@ -1,4 +1,5 @@
 import { defineCollection, z } from 'astro:content';
+import { PAPER_TOPICS, PAPER_KEYWORDS } from '../data/papers-taxonomy';
 
 const logs = defineCollection({
 	type: 'content',
@@ -80,8 +81,8 @@ const papers = defineCollection({
 		title: z.string(),
 		authors: z.string(),         // "Mania et al."
 		year: z.number(),
-		topic: z.string(),           // primary grouping: "Imitation Learning", "Reinforcement Learning", etc.
-		tags: z.array(z.string()).optional(),
+		topic: z.enum(PAPER_TOPICS),
+		tags: z.array(z.enum(PAPER_KEYWORDS)).optional(),
 		url: z.string().optional(),  // arxiv / paper link
 		source: z.string().optional(), // where you found it
 		tldr: z.string(),            // one-line why it matters

@@ -4,12 +4,11 @@ title: >-
   Learning
 authors: Luo et al.
 year: 2024
-topic: Reinforcement Learning
+topic: Model-Free RL
 tags:
   - manipulation
   - dexterous
   - human-in-the-loop
-  - hitl
 url: 'https://arxiv.org/abs/2407.16034'
 source: 'ETHZ Robot Learning 2026 — Week 4: Reinforcement Learning I'
 tldr: >-

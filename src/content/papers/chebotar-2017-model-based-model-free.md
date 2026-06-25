@@ -8,6 +8,7 @@ topic: Model-Based RL
 tags:
   - trajectory-optimization
   - manipulation
+  - hybrid
 url: 'https://arxiv.org/abs/1703.03078'
 source: Irpan 2018 — Deep RL Doesn't Work Yet
 tldr: >-

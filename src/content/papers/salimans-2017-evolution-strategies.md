@@ -2,11 +2,9 @@
 title: Evolution Strategies as a Scalable Alternative to Reinforcement Learning
 authors: Salimans et al.
 year: 2017
-topic: Reinforcement Learning
+topic: Model-Free RL
 tags:
   - evolution-strategies
-  - optimization
-  - scalability
 url: 'https://arxiv.org/abs/1703.03864'
 source: 'ETHZ Robot Learning 2026 — Week 4: Reinforcement Learning I'
 tldr: >-

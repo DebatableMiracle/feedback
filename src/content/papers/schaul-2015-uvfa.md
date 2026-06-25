@@ -2,7 +2,7 @@
 title: Universal Value Function Approximators
 authors: Schaul et al.
 year: 2015
-topic: Reinforcement Learning
+topic: Model-Free RL
 tags:
   - value-functions
   - generalization

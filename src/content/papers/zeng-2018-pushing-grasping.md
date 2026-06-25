@@ -4,7 +4,7 @@ title: >-
   Reinforcement Learning
 authors: Zeng et al.
 year: 2018
-topic: Reinforcement Learning
+topic: Model-Free RL
 tags:
   - manipulation
   - grasping

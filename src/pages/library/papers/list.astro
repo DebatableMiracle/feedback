@@ -22,7 +22,7 @@ const topics = Object.keys(byTopic).sort();
 		<a href="/library/papers" class="text-sm font-mono text-secondary hover:text-accent transition-colors">Graph view →</a>
 	</div>
 	<h1 class="text-3xl font-serif font-bold mb-2">Papers</h1>
-	<p class="text-secondary mb-12">{allPapers.length} papers across {topics.length} topics</p>
+	<p class="text-secondary mb-12">{allPapers.length} papers across {topics.length} topics · tags from <span class="font-mono text-sm">Templates/Paper Keywords.md</span></p>
 
 	{topics.map((topic) => (
 		<section class="mb-12">

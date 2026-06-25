@@ -4,9 +4,8 @@ authors: Nagabandi et al.
 year: 2017
 topic: Model-Based RL
 tags:
-  - deep-learning
   - locomotion
-  - fine-tuning
+  - hybrid
 url: 'https://arxiv.org/abs/1708.02596'
 source: Irpan 2018 — Deep RL Doesn't Work Yet
 tldr: >-
