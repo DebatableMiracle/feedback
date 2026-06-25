@@ -20,7 +20,7 @@ This paper talks a lot about the failures and more importantly the challenges of
 
 One of the cool observation is how unstable, Deep RL learning is, and can often go bad just coz of a different random seed. Deep RL agents, often decide to learn the weirdest unintentional local optimas instead of finding the global ones. Which is not wrong but at the same time, what we need is to find local optimas better than our human baselines, which is really hard to come by from then, and even current exploration methods. I think I wanna explore curiosity even more after  reading thiss!
 
-
+Anyways the paper also talks about how greatly volatile the reward engineering task is, stating "Any time you introduce reward shaping, you introduce a chance for learning a non-optimal policy that optimizes the wrong objective." which is true and makes RL very unoptimal for solving actual problems.
 
 #### Some selected texts from the article that I likedd
 "A friend is training a simulated robot arm to reach towards a point above a table. It turns out the point was defined _with respect to the table_, and the table wasn’t anchored to anything. The policy learned to slam the table really hard, making the table fall over, which moved the target point too. The target point _just so happened_ to fall next to the end of the arm."
@@ -37,3 +37,9 @@ One of the cool observation is how unstable, Deep RL learning is, and can often 
 "Deep RL is popular because it’s the only area in ML where it’s socially acceptable to train on the test set." - Quote to live by
 
 (See [Universal Value Function Approximators, Schaul et al, ICML 2015](http://proceedings.mlr.press/v37/schaul15.pdf).
+
+"Any time you introduce reward shaping, you introduce a chance for learning a non-optimal policy that optimizes the wrong objective."
+
+If you’re interested in further reading on what makes a good reward, a good search term is [“proper scoring rule”](https://en.wikipedia.org/wiki/Scoring_rule#Proper_scoring_rules). See [this Terrence Tao blog post](https://terrytao.wordpress.com/2016/06/01/how-to-assign-partial-credit-on-an-exam-of-true-false-questions/) for an approachable example.
+
+This was empirically shown in [Hyperparameter Optimization: A Spectral Approach (Hazan et al, 2017)](https://arxiv.org/abs/1706.00764) - a summary by me is [here](https://www.alexirpan.com/2017/06/27/hyperparam-spectral.html) if interested. Another interesting read!
