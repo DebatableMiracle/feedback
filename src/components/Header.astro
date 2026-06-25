@@ -4,9 +4,9 @@ const { title } = Astro.props;
 
 <header class="py-12 mb-16 border-b border-border">
 	<div class="container flex justify-between items-center">
-		<nav class="w-full flex justify-between items-center">
+		<nav class="w-full flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
 			<a href="/" class="font-bold text-lg text-text hover:text-accent transition-colors">Feedback</a>
-			<div class="flex gap-6 text-sm font-medium text-secondary items-center">
+			<div class="flex flex-wrap justify-center sm:justify-end gap-x-4 gap-y-2 sm:gap-6 text-sm font-medium text-secondary items-center">
 				{
 					(Astro.url.pathname === '/logs' || Astro.url.pathname === '/logs/' || Astro.url.pathname === '/articles' || Astro.url.pathname === '/articles/') && (
 						<div class="hidden sm:flex gap-1 bg-gray-100 p-1 rounded-md" id="mood-toggle">
