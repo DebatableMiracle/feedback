@@ -12,7 +12,7 @@ const git = simpleGit(REPO_ROOT);
 
 // User Configuration
 const SYNC_INTERVAL_MS = 1000 * 60 * 60; // 1 Hour (Default per request)
-const DEBOUNCE_MS = 10000; // Increase to 10s to bundle changes better and save battery
+const DEBOUNCE_MS = 1000 * 60 * 5; // 5 minutes — wait until editing has actually stopped
 const COMMIT_MSG_PREFIX = 'Auto-sync';
 
 console.log(`Starting Git Watcher for ${CONTENT_DIR}...`);
