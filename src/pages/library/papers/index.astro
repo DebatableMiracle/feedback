@@ -64,12 +64,14 @@ const graphData = JSON.stringify({ nodes, links });
 	</div>
 	<div class="mb-6">
 		<h1 class="text-3xl font-serif font-bold mb-1">Papers</h1>
-		<p class="text-secondary text-sm font-mono">{papers.length} papers · topics + keywords · drag to explore</p>
+		<p class="text-secondary text-sm font-mono">{papers.length} papers · scroll to zoom · drag background to pan</p>
 	</div>
 
-	<!-- break out of the 65ch container for the graph -->
-	<div id="graph-wrap" style="width: 100vw; position: relative; left: 50%; transform: translateX(-50%); max-width: 860px;">
-		<svg id="graph" style="width: 100%; height: 520px; display: block; background: #f9f9f9;"></svg>
+	<div id="graph-wrap" class="relative border border-border rounded-sm" style="width: 100vw; position: relative; left: 50%; transform: translateX(-50%); max-width: 860px;">
+		<svg id="graph" style="width: 100%; height: min(75vh, 720px); display: block; background: #f9f9f9; cursor: grab;"></svg>
+		<button id="fit-btn" type="button" class="absolute top-3 right-3 text-xs font-mono text-secondary hover:text-accent transition-colors border border-border bg-bg px-2 py-1 rounded-sm">
+			fit view
+		</button>
 	</div>
 
 	<div id="tooltip" style="
@@ -97,13 +99,25 @@ const graphData = JSON.stringify({ nodes, links });
 
 	const container = document.getElementById("graph");
 	const width = container.clientWidth || 800;
-	const height = 520;
+	const height = container.clientHeight || 720;
 
 	const svg = d3.select("#graph")
 		.attr("viewBox", `0 0 ${width} ${height}`)
 		.attr("preserveAspectRatio", "xMidYMid meet");
 
-	// ── forces ──────────────────────────────────────────────────────
+	const zoomLayer = svg.append("g");
+
+	// background rect for panning
+	zoomLayer.append("rect")
+		.attr("width", width * 4)
+		.attr("height", height * 4)
+		.attr("x", -width * 1.5)
+		.attr("y", -height * 1.5)
+		.attr("fill", "transparent");
+
+	const linkG = zoomLayer.append("g");
+	const nodeG = zoomLayer.append("g");
+
 	const nodeRadius = (d) => {
 		if (d.type === "topic") return 48;
 		if (d.type === "keyword") return 28;
@@ -123,9 +137,39 @@ const graphData = JSON.stringify({ nodes, links });
 		.force("center", d3.forceCenter(width / 2, height / 2))
 		.force("collision", d3.forceCollide().radius(nodeRadius));
 
-	// ── edges ────────────────────────────────────────────────────────
-	const link = svg.append("g")
-		.selectAll("line")
+	const zoom = d3.zoom()
+		.scaleExtent([0.15, 3])
+		.on("zoom", (event) => {
+			zoomLayer.attr("transform", event.transform);
+		})
+		.filter((event) => {
+			if (event.type === "wheel") return true;
+			return event.target.tagName === "rect";
+		});
+
+	svg.call(zoom).on("dblclick.zoom", null);
+
+	function fitToView(duration = 600) {
+		const bounds = zoomLayer.node().getBBox();
+		if (!bounds.width || !bounds.height) return;
+		const pad = 48;
+		const scale = Math.min(
+			0.9,
+			(width - pad * 2) / bounds.width,
+			(height - pad * 2) / bounds.height
+		);
+		const midX = bounds.x + bounds.width / 2;
+		const midY = bounds.y + bounds.height / 2;
+		const transform = d3.zoomIdentity
+			.translate(width / 2, height / 2)
+			.scale(scale)
+			.translate(-midX, -midY);
+		svg.transition().duration(duration).call(zoom.transform, transform);
+	}
+
+	document.getElementById("fit-btn").addEventListener("click", () => fitToView(400));
+
+	const link = linkG.selectAll("line")
 		.data(data.links)
 		.join("line")
 		.attr("stroke", (d) => {
@@ -137,27 +181,30 @@ const graphData = JSON.stringify({ nodes, links });
 			return target?.type === "keyword" ? 0.75 : 1;
 		});
 
-	// ── nodes ────────────────────────────────────────────────────────
-	const node = svg.append("g")
-		.selectAll("g")
+	const paperColor = (d) => d.read ? "#666666" : "#d0d0d0";
+
+	const node = nodeG.selectAll("g")
 		.data(data.nodes)
 		.join("g")
-		.style("cursor", (d) => d.type === "paper" ? "pointer" : "default")
+		.style("cursor", (d) => d.type === "paper" ? "pointer" : "grab")
 		.call(
 			d3.drag()
 				.on("start", (event, d) => {
+					event.sourceEvent.stopPropagation();
 					if (!event.active) simulation.alphaTarget(0.3).restart();
 					d.fx = d.x; d.fy = d.y;
+					svg.style("cursor", "grabbing");
 				})
-				.on("drag", (event, d) => { d.fx = event.x; d.fy = event.y; })
+				.on("drag", (event, d) => {
+					const [x, y] = d3.pointer(event, zoomLayer.node());
+					d.fx = x; d.fy = y;
+				})
 				.on("end", (event, d) => {
 					if (!event.active) simulation.alphaTarget(0);
 					d.fx = null; d.fy = null;
+					svg.style("cursor", "grab");
 				})
 		);
-
-	// circles — topic: black, keyword: hollow, paper: read/unread gray
-	const paperColor = (d) => d.read ? "#666666" : "#d0d0d0";
 
 	node.append("circle")
 		.attr("r", (d) => {
@@ -204,7 +251,6 @@ const graphData = JSON.stringify({ nodes, links });
 			if (d.type === "paper") window.location.href = d.url;
 		});
 
-	// topic labels
 	node.filter((d) => d.type === "topic")
 		.append("text")
 		.text((d) => d.label.toUpperCase())
@@ -216,7 +262,6 @@ const graphData = JSON.stringify({ nodes, links });
 		.attr("letter-spacing", "0.08em")
 		.attr("fill", "#111111");
 
-	// keyword labels
 	node.filter((d) => d.type === "keyword")
 		.append("text")
 		.text((d) => d.label)
@@ -226,7 +271,7 @@ const graphData = JSON.stringify({ nodes, links });
 		.attr("font-size", "9px")
 		.attr("fill", "#999999");
 
-	// ── tick ─────────────────────────────────────────────────────────
+	let fitted = false;
 	simulation.on("tick", () => {
 		link
 			.attr("x1", (d) => d.source.x)
@@ -234,6 +279,13 @@ const graphData = JSON.stringify({ nodes, links });
 			.attr("x2", (d) => d.target.x)
 			.attr("y2", (d) => d.target.y);
 		node.attr("transform", (d) => `translate(${d.x},${d.y})`);
+	});
+
+	simulation.on("end", () => {
+		if (!fitted) {
+			fitted = true;
+			fitToView(0);
+		}
 	});
 })();
 </script>
