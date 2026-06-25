@@ -8,7 +8,7 @@ interface Props extends HTMLAttributes<"time"> {
 const { date, class: className, ...props } = Astro.props;
 ---
 
-<time datetime={date.toISOString()} class={className} {...props}>
+<time datetime={date.toISOString()} class:list={["whitespace-nowrap", className]} {...props}>
 	{
 		date.toLocaleDateString("en-us", {
 			year: "numeric",
