@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import FormattedDate from "../components/FormattedDate.astro";
-import { getCollection } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
 
 const articles = (await getCollection("articles"))
 	.filter((article) => article.data.published)
@@ -12,21 +12,28 @@ const logs = (await getCollection("logs"))
 	.filter((log) => log.data.published)
 	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
 	.slice(0, 5);
+
+const feedback = await getEntry("pages", "feedback");
+const { Content } = feedback ? await feedback.render() : { Content: null };
 ---
 
 <BaseLayout title="Feedback" description="A markdown-first thinking space.">
 	<section class="mb-16">
-		<h1 class="text-xl font-bold mb-2">Feedback</h1>
-		<div class="text-secondary text-lg leading-relaxed">
-			<p>
-				A public loop for personal logs and refined articles. Also some
-				dumb stuff I do.
-			</p>
-			<p>
-				Notes for everything that my mind goes through. From Robotics,
-				AGI, to my daily thoughts, observations about people, metaphysical ideas, philosophy
-				and future of humanity maybe?
-			</p>
+		<h1 class="text-xl font-bold mb-2">{feedback?.data.title ?? "Feedback"}</h1>
+		<div class="text-secondary text-lg leading-relaxed space-y-4">
+			{Content ? <Content /> : (
+				<>
+					<p>
+						A public loop for personal logs and refined articles. Also some
+						dumb stuff I do.
+					</p>
+					<p>
+						Notes for everything that my mind goes through. From Robotics,
+						AGI, to my daily thoughts, observations about people, metaphysical ideas, philosophy
+						and future of humanity maybe?
+					</p>
+				</>
+			)}
 		</div>
 		<div class="mt-6">
 			<a

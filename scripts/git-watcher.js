@@ -22,6 +22,7 @@ console.log(`Publish toggle: ${PUBLISH_DEBOUNCE_MS / 1000}s debounce. Edits: ${E
 let pendingFiles = new Set();
 let timer = null;
 let scheduledDelay = EDIT_DEBOUNCE_MS;
+const publishedCache = new Map(); // relPath -> boolean
 
 const watcher = chokidar.watch(CONTENT_DIR, {
     ignored: /(^|[\/\\])(\.|\.stfolder|node_modules)/, // Ignore dotfiles, syncthing folders, node_modules
@@ -49,14 +50,29 @@ async function isPublishSignal(filePath) {
     try {
         const content = await fs.readFile(filePath, 'utf8');
         const published = isPublished(matter(content).data);
-        try {
-            const prev = await git.show([`HEAD:${rel}`]);
-            return published !== isPublished(matter(prev).data);
-        } catch {
-            return published; // new file: signal only if publishing
+
+        // Check cache first to avoid launching Git subprocesses on every keypress/autosave
+        let prevPublished;
+        if (publishedCache.has(rel)) {
+            prevPublished = publishedCache.get(rel);
+        } else {
+            try {
+                const prev = await git.show([`HEAD:${rel}`]);
+                prevPublished = isPublished(matter(prev).data);
+            } catch {
+                prevPublished = null; // not tracked in HEAD yet
+            }
+            publishedCache.set(rel, prevPublished);
         }
+
+        const isSignal = prevPublished !== null ? (published !== prevPublished) : published;
+        
+        // Update cache for subsequent edits
+        publishedCache.set(rel, published);
+        return isSignal;
     } catch (e) {
         if (e.code === 'ENOENT') {
+            publishedCache.delete(rel);
             try {
                 await git.raw(['ls-files', '--error-unmatch', rel]);
                 return true; // deleted a tracked file

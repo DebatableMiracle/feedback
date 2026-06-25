@@ -34,42 +34,6 @@ const totalPapers = (await getCollection("papers")).filter((p) => p.data.publish
 		<h2
 			class="text-sm font-semibold uppercase tracking-wider text-secondary mb-6 border-b border-border pb-2"
 		>
-			Notes
-		</h2>
-		{
-			notes.length > 0 ? (
-				<ul class="space-y-4">
-					{notes.map((note) => (
-						<li class="flex justify-between items-baseline group">
-							<a
-								href={`/library/notes/${note.slug}/`}
-								class="text-lg font-serif font-semibold group-hover:text-accent transition-colors"
-							>
-								{note.data.title}
-							</a>
-							<span class="text-sm font-mono text-secondary">
-								<FormattedDate date={note.data.date} />
-							</span>
-						</li>
-					))}
-				</ul>
-			) : (
-				<p class="text-secondary text-sm">Nothing here yet.</p>
-			)
-		}
-		<div class="mt-6 text-sm">
-			<a
-				href="/library/notes"
-				class="text-secondary hover:text-accent transition-colors"
-				>View all notes →</a
-			>
-		</div>
-	</section>
-
-	<section class="mb-16">
-		<h2
-			class="text-sm font-semibold uppercase tracking-wider text-secondary mb-6 border-b border-border pb-2"
-		>
 			Papers
 		</h2>
 		<ul class="space-y-4">
@@ -127,6 +91,42 @@ const totalPapers = (await getCollection("papers")).filter((p) => p.data.publish
 				href="/library/resources"
 				class="text-secondary hover:text-accent transition-colors"
 				>View all resources →</a
+			>
+		</div>
+	</section>
+
+	<section class="mb-16">
+		<h2
+			class="text-sm font-semibold uppercase tracking-wider text-secondary mb-6 border-b border-border pb-2"
+		>
+			Notes
+		</h2>
+		{
+			notes.length > 0 ? (
+				<ul class="space-y-4">
+					{notes.map((note) => (
+						<li class="flex justify-between items-baseline group">
+							<a
+								href={`/library/notes/${note.slug}/`}
+								class="text-lg font-serif font-semibold group-hover:text-accent transition-colors"
+							>
+								{note.data.title}
+							</a>
+							<span class="text-sm font-mono text-secondary">
+								<FormattedDate date={note.data.date} />
+							</span>
+						</li>
+					))}
+				</ul>
+			) : (
+				<p class="text-secondary text-sm">Nothing here yet.</p>
+			)
+		}
+		<div class="mt-6 text-sm">
+			<a
+				href="/library/notes"
+				class="text-secondary hover:text-accent transition-colors"
+				>View all notes →</a
 			>
 		</div>
 	</section>

@@ -1,0 +1,151 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import FormattedDate from "../components/FormattedDate.astro";
+import { getCollection } from "astro:content";
+
+const articles = (await getCollection("articles"))
+	.filter((a) => a.data.published)
+	.map((a) => ({
+		type: "article",
+		title: a.data.title,
+		description: a.data.description,
+		url: `/articles/${a.slug}/`,
+		date: a.data.date,
+		tags: a.data.tags || [],
+	}));
+
+const logs = (await getCollection("logs"))
+	.filter((l) => l.data.published)
+	.map((l) => ({
+		type: "log",
+		title: `Log #${l.data.log_number}${l.data.subtitle ? ` — ${l.data.subtitle}` : ""}`,
+		url: `/logs/${l.slug}/`,
+		date: l.data.date,
+		tags: l.data.tags || [],
+	}));
+
+const projects = (await getCollection("projects")).map((p) => ({
+	type: "project",
+	title: p.data.title,
+	description: `Status: ${p.data.status}`,
+	url: `/projects/${p.slug}/`,
+	tags: p.data.tags || [],
+	date: null,
+}));
+
+const papers = (await getCollection("papers"))
+	.filter((p) => p.data.published)
+	.map((p) => ({
+		type: "paper",
+		title: p.data.title,
+		description: `${p.data.authors} (${p.data.year}) · ${p.data.tldr}`,
+		url: `/library/papers/${p.slug}/`,
+		date: p.data.date,
+		tags: p.data.tags || [],
+	}));
+
+const resources = (await getCollection("library-resources"))
+	.filter((r) => r.data.published)
+	.map((r) => ({
+		type: "resource",
+		title: r.data.title,
+		description: r.data.description,
+		url: `/library/resources/${r.slug}/`,
+		date: r.data.date,
+		tags: r.data.tags || [],
+	}));
+
+const notes = (await getCollection("library-notes"))
+	.filter((n) => n.data.published)
+	.map((n) => ({
+		type: "note",
+		title: n.data.title,
+		description: n.data.description,
+		url: `/library/notes/${n.slug}/`,
+		date: n.data.date,
+		tags: n.data.tags || [],
+	}));
+
+const allItems = [...articles, ...logs, ...projects, ...papers, ...resources, ...notes].sort((a, b) => {
+	if (a.date && b.date) {
+		return b.date.valueOf() - a.date.valueOf();
+	}
+	if (a.date) return -1;
+	if (b.date) return 1;
+	return 0;
+});
+---
+
+<BaseLayout title="All Content" description="A unified index of all articles, logs, projects, papers, notes, and resources.">
+	<section class="mb-12">
+		<h1 class="text-xl font-bold mb-2">All Content</h1>
+		<p class="text-secondary text-lg leading-relaxed">
+			A master directory of all entries across the site. Use the filters below to browse specific sections.
+		</p>
+	</section>
+
+	<section class="mb-8">
+		<div class="flex flex-wrap gap-2 text-xs font-mono" id="type-filter">
+			<button data-type="all" class="px-3 py-1.5 rounded border border-border bg-text text-bg font-bold transition-all cursor-pointer">ALL</button>
+			<button data-type="article" class="px-3 py-1.5 rounded border border-border text-secondary hover:text-text hover:bg-gray-100 transition-all cursor-pointer">ARTICLES</button>
+			<button data-type="log" class="px-3 py-1.5 rounded border border-border text-secondary hover:text-text hover:bg-gray-100 transition-all cursor-pointer">LOGS</button>
+			<button data-type="project" class="px-3 py-1.5 rounded border border-border text-secondary hover:text-text hover:bg-gray-100 transition-all cursor-pointer">PROJECTS</button>
+			<button data-type="paper" class="px-3 py-1.5 rounded border border-border text-secondary hover:text-text hover:bg-gray-100 transition-all cursor-pointer">PAPERS</button>
+			<button data-type="resource" class="px-3 py-1.5 rounded border border-border text-secondary hover:text-text hover:bg-gray-100 transition-all cursor-pointer">RESOURCES</button>
+			<button data-type="note" class="px-3 py-1.5 rounded border border-border text-secondary hover:text-text hover:bg-gray-100 transition-all cursor-pointer">NOTES</button>
+		</div>
+	</section>
+
+	<section>
+		<ul class="space-y-6" id="content-list">
+			{allItems.map((item) => (
+				<li class="group flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-4 border-b border-border pb-4" data-type={item.type}>
+					<div class="flex items-center gap-3 sm:min-w-[180px] shrink-0">
+						<span class="text-[10px] font-mono uppercase tracking-wider bg-gray-100 text-secondary px-2 py-0.5 rounded border border-border group-hover:bg-accent group-hover:text-white group-hover:border-accent transition-colors">
+							{item.type}
+						</span>
+						<span class="text-xs font-mono text-secondary">
+							{item.date ? <FormattedDate date={item.date} /> : "No date"}
+						</span>
+					</div>
+					<div class="flex-grow">
+						<a href={item.url} class="text-lg font-serif font-semibold group-hover:text-accent transition-colors leading-snug block">
+							{item.title}
+						</a>
+						{item.description && (
+							<p class="text-secondary text-sm mt-1 leading-relaxed line-clamp-2">
+								{item.description}
+							</p>
+						)}
+					</div>
+				</li>
+			))}
+		</ul>
+	</section>
+
+	<script>
+		const buttons = document.querySelectorAll('#type-filter button');
+		const listItems = document.querySelectorAll('#content-list li');
+
+		buttons.forEach(btn => {
+			btn.addEventListener('click', () => {
+				buttons.forEach(b => {
+					b.classList.remove('bg-text', 'text-bg', 'font-bold');
+					b.classList.add('text-secondary', 'hover:bg-gray-100');
+				});
+				btn.classList.add('bg-text', 'text-bg', 'font-bold');
+				btn.classList.remove('text-secondary', 'hover:bg-gray-100');
+
+				const typeFilter = btn.getAttribute('data-type');
+				listItems.forEach(item => {
+					const itemType = item.getAttribute('data-type');
+					if (typeFilter === 'all' || itemType === typeFilter) {
+						item.classList.remove('hidden');
+					} else {
+						item.classList.add('hidden');
+					}
+				});
+			});
+		});
+	</script>
+</BaseLayout>

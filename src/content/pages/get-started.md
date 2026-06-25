@@ -7,28 +7,28 @@ date: 2026-06-25T21:20:10.826Z
 
 ## Welcome to Feedback
 
-Feedback is my public space for some personal thoughts, ideas and more technical articles. The idea is to build  a digital garden like structure to keep me from overthinking thoughts but also keep refining the articles and longer articles. 
+Feedback is my personal public space for some basic writing of thoughts, ideas and more technical articles. The idea is to build  a digital garden like structure because I kinda feel like writing a lot, even if I might be pretty bad at it. 
 
 If you’re new here,check out some of my articles based on your taste:
-I've only written one article yet so no special picks yet lol.
+I've only written a few articles yet so no special picks yet but these are some basic metaphysical problems I explored for a week and wrote something out of. 
 
 - [what-if-we-live-in-a-simulation](/articles/what-if-we-live-in-a-simulation/)
+- [what-is-you](/articles/what-is-you/)
 
-I'll be adding more articles on varied topics as I go along.
+I also plan to write more technical articles like the VLA one but more theoretical and research-y less "I made a pipeline that works". So you can stick around for those!
 
-If you wanna learn more about my writing process and structure of the site, here is how I organize my writing and you can check out each sections accordingly:
+If you're curious about how this site is set up, here is how I categorize everything:
 
 ### Logs
-
-Short, raw, and frequent: Logs are my thinking-out-loud space. They are personal notes and fleeting thoughts I encounter day-to-day, published directly from my **Obsidian** vault. They aren't meant to be polished to be honest. The idea was to keep them simple exploration points for myself or those who are actually curious about my thoughts or process.
+Short, unedited frequent personal notes and updates. These are day-to-day thoughts, minor observations, and working ideas published directly from my Obsidian vault from my phone/pc. Think of it like my twitter account on my own website because I'm a bit narcissist and pretentious.
 
 ### Articles
-
-Refined and researched: Articles are well-structured long-form pieces. Here, I share thorough perspectives and synthesized conclusions on topics I’ve spent time living with. If you're looking for deep dives and "big picture" ideas, start here. They will vary from technical pieces of the work I do, from robotics, AI, ML, RL, electronics (or any other field I get interested in) or some other personal thoughts or ideas about metaphysics,philosophy, psychology and patterns. Though I still would keep these non technical topics a little researched as I understand them.
+Longer-form, more structured pieces where I try to make sense of specific topics, covering technical concepts in robotics and AI/ML, as well as personal thoughts on metaphysics and philosophy.
 
 ### Projects
+Step-by-step logs and documentation for actual things I'm building, detailing code, architecture choices, and progress. Sometimes or more than often they may include certain series of articles as a single product. 
 
-Building in public: Projects are collections of articles or technical walkthroughs centered around a specific build. These include code snippets, architectural decisions, and step-by-step write-ups of the things I create. Sometimes associated articles and series would also be included in projects as they become relevant to each other.
+### Library
+My reading logs for research papers, collections of notes, and gathered resources that I find worth keeping track of.
 
-
-All said, this is a work in progress and I'm still exploring the best way to organize my writing. I'm open to any (literally) feedback and suggestions.
+All said, this is a work in progress and I'm still figuring out the best way to organize it. I'm open to any feedback or suggestions.
