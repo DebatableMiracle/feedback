@@ -4,7 +4,6 @@ authors: Duff
 year: 1995
 topic: Reinforcement Learning
 tags:
-  - rl
   - q-learning
   - bandits
   - exploration

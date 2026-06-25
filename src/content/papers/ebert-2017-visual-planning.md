@@ -4,7 +4,6 @@ authors: Ebert et al.
 year: 2017
 topic: Model-Based RL
 tags:
-  - model-based-rl
   - visual
   - planning
   - self-supervised

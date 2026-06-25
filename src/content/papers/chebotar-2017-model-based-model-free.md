@@ -6,8 +6,6 @@ authors: Chebotar et al.
 year: 2017
 topic: Model-Based RL
 tags:
-  - model-based-rl
-  - model-free
   - trajectory-optimization
   - manipulation
 url: 'https://arxiv.org/abs/1703.03078'

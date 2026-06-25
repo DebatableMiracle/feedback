@@ -6,7 +6,6 @@ authors: Zeng et al.
 year: 2018
 topic: Reinforcement Learning
 tags:
-  - rl
   - manipulation
   - grasping
   - self-supervised

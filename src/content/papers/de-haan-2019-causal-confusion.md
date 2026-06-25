@@ -4,7 +4,6 @@ authors: de Haan et al.
 year: 2019
 topic: Imitation Learning
 tags:
-  - imitation-learning
   - causal-inference
   - covariate-shift
 url: 'https://arxiv.org/abs/1905.11979'

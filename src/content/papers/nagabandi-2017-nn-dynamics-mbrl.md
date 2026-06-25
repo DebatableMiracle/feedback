@@ -4,7 +4,6 @@ authors: Nagabandi et al.
 year: 2017
 topic: Model-Based RL
 tags:
-  - model-based-rl
   - deep-learning
   - locomotion
   - fine-tuning

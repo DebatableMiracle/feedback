@@ -4,7 +4,6 @@ authors: Levine et al.
 year: 2016
 topic: Model-Based RL
 tags:
-  - model-based-rl
   - policy-search
   - trajectory-optimization
   - visual

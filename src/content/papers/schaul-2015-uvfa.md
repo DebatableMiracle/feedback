@@ -4,7 +4,6 @@ authors: Schaul et al.
 year: 2015
 topic: Reinforcement Learning
 tags:
-  - rl
   - value-functions
   - generalization
   - goal-conditioned

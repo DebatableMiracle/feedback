@@ -6,7 +6,6 @@ authors: Luo et al.
 year: 2024
 topic: Reinforcement Learning
 tags:
-  - rl
   - manipulation
   - dexterous
   - human-in-the-loop

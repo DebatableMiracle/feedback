@@ -4,7 +4,6 @@ authors: Pathak et al.
 year: 2017
 topic: Reinforcement Learning
 tags:
-  - rl
   - exploration
   - intrinsic-motivation
   - self-supervised

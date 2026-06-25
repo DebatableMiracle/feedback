@@ -4,7 +4,6 @@ authors: Salimans et al.
 year: 2017
 topic: Reinforcement Learning
 tags:
-  - rl
   - evolution-strategies
   - optimization
   - scalability

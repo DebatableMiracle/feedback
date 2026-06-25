@@ -4,7 +4,6 @@ authors: Sutton
 year: 1991
 topic: Model-Based RL
 tags:
-  - model-based-rl
   - planning
   - world-model
   - sample-efficiency

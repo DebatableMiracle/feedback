@@ -4,7 +4,6 @@ authors: Pari et al.
 year: 2021
 topic: Imitation Learning
 tags:
-  - imitation-learning
   - representation-learning
   - visual
   - transfer

@@ -4,7 +4,6 @@ authors: Mania et al.
 year: 2018
 topic: Reinforcement Learning
 tags:
-  - rl
   - optimization
   - policy-gradient
 url: 'https://arxiv.org/abs/1803.07055'

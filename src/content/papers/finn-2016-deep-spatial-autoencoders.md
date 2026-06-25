@@ -4,7 +4,6 @@ authors: Finn et al.
 year: 2016
 topic: Model-Based RL
 tags:
-  - model-based-rl
   - visual
   - representation-learning
   - manipulation

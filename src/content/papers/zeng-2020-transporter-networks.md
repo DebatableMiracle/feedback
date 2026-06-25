@@ -4,7 +4,6 @@ authors: Zeng et al.
 year: 2020
 topic: Imitation Learning
 tags:
-  - imitation-learning
   - manipulation
   - pick-and-place
   - spatial-attention

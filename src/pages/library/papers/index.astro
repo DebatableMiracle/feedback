@@ -4,7 +4,17 @@ import { getCollection } from "astro:content";
 
 const papers = (await getCollection("papers")).filter((p) => p.data.published);
 
-// Build nodes: topic nodes + paper nodes
+// Umbrella tags duplicate `topic` — only specific keywords become graph nodes
+const UMBRELLA_TAGS = new Set(["rl", "imitation-learning", "model-based-rl", "model-free"]);
+
+const keywordTags = [
+	...new Set(
+		papers.flatMap((p) =>
+			(p.data.tags ?? []).filter((t) => !UMBRELLA_TAGS.has(t))
+		)
+	),
+].sort();
+
 const topics = [...new Set(papers.map((p) => p.data.topic))];
 
 const nodes = [
@@ -13,13 +23,18 @@ const nodes = [
 		label: topic,
 		type: "topic",
 	})),
+	...keywordTags.map((tag) => ({
+		id: `keyword:${tag}`,
+		label: tag,
+		type: "keyword",
+	})),
 	...papers.map((p) => ({
 		id: p.slug,
 		label: p.data.title,
 		authors: p.data.authors,
 		year: p.data.year,
 		topic: p.data.topic,
-		tags: p.data.tags ?? [],
+		keywords: (p.data.tags ?? []).filter((t) => !UMBRELLA_TAGS.has(t)),
 		tldr: p.data.tldr,
 		url: `/library/papers/${p.slug}/`,
 		read: p.data.read,
@@ -27,23 +42,17 @@ const nodes = [
 	})),
 ];
 
-// Build edges: paper→topic + paper↔paper via shared tags
+// Edges: paper→topic, paper→keyword (no paper↔paper)
 const links: { source: string; target: string }[] = [];
 
 papers.forEach((p) => {
 	links.push({ source: p.slug, target: `topic:${p.data.topic}` });
+	(p.data.tags ?? [])
+		.filter((t) => !UMBRELLA_TAGS.has(t))
+		.forEach((tag) => {
+			links.push({ source: p.slug, target: `keyword:${tag}` });
+		});
 });
-
-for (let i = 0; i < papers.length; i++) {
-	for (let j = i + 1; j < papers.length; j++) {
-		const tagsI = papers[i].data.tags ?? [];
-		const tagsJ = papers[j].data.tags ?? [];
-		const shared = tagsI.filter((t) => tagsJ.includes(t));
-		if (shared.length > 0) {
-			links.push({ source: papers[i].slug, target: papers[j].slug });
-		}
-	}
-}
 
 const graphData = JSON.stringify({ nodes, links });
 ---
@@ -55,7 +64,7 @@ const graphData = JSON.stringify({ nodes, links });
 	</div>
 	<div class="mb-6">
 		<h1 class="text-3xl font-serif font-bold mb-1">Papers</h1>
-		<p class="text-secondary text-sm font-mono">{papers.length} papers · drag to explore · click to open</p>
+		<p class="text-secondary text-sm font-mono">{papers.length} papers · topics + keywords · drag to explore</p>
 	</div>
 
 	<!-- break out of the 65ch container for the graph -->
@@ -95,19 +104,38 @@ const graphData = JSON.stringify({ nodes, links });
 		.attr("preserveAspectRatio", "xMidYMid meet");
 
 	// ── forces ──────────────────────────────────────────────────────
+	const nodeRadius = (d) => {
+		if (d.type === "topic") return 48;
+		if (d.type === "keyword") return 28;
+		return 14;
+	};
+
 	const simulation = d3.forceSimulation(data.nodes)
-		.force("link", d3.forceLink(data.links).id((d) => d.id).distance(90).strength(0.4))
-		.force("charge", d3.forceManyBody().strength(-260))
+		.force("link", d3.forceLink(data.links).id((d) => d.id).distance((d) => {
+			const target = typeof d.target === "object" ? d.target : data.nodes.find((n) => n.id === d.target);
+			return target?.type === "keyword" ? 55 : 80;
+		}).strength(0.35))
+		.force("charge", d3.forceManyBody().strength((d) => {
+			if (d.type === "topic") return -400;
+			if (d.type === "keyword") return -120;
+			return -80;
+		}))
 		.force("center", d3.forceCenter(width / 2, height / 2))
-		.force("collision", d3.forceCollide().radius((d) => d.type === "topic" ? 48 : 18));
+		.force("collision", d3.forceCollide().radius(nodeRadius));
 
 	// ── edges ────────────────────────────────────────────────────────
 	const link = svg.append("g")
 		.selectAll("line")
 		.data(data.links)
 		.join("line")
-		.attr("stroke", "#e5e5e5")
-		.attr("stroke-width", 1);
+		.attr("stroke", (d) => {
+			const target = typeof d.target === "object" ? d.target : null;
+			return target?.type === "keyword" ? "#ebebeb" : "#e0e0e0";
+		})
+		.attr("stroke-width", (d) => {
+			const target = typeof d.target === "object" ? d.target : null;
+			return target?.type === "keyword" ? 0.75 : 1;
+		});
 
 	// ── nodes ────────────────────────────────────────────────────────
 	const node = svg.append("g")
@@ -128,31 +156,49 @@ const graphData = JSON.stringify({ nodes, links });
 				})
 		);
 
-	// circles — read: #666 (solid), unread: #d0d0d0 (faint)
+	// circles — topic: black, keyword: hollow, paper: read/unread gray
 	const paperColor = (d) => d.read ? "#666666" : "#d0d0d0";
 
 	node.append("circle")
-		.attr("r", (d) => d.type === "topic" ? 10 : 5)
-		.attr("fill", (d) => d.type === "topic" ? "#111111" : paperColor(d))
-		.attr("stroke", "none")
+		.attr("r", (d) => {
+			if (d.type === "topic") return 10;
+			if (d.type === "keyword") return 4;
+			return 5;
+		})
+		.attr("fill", (d) => {
+			if (d.type === "topic") return "#111111";
+			if (d.type === "keyword") return "#f9f9f9";
+			return paperColor(d);
+		})
+		.attr("stroke", (d) => d.type === "keyword" ? "#cccccc" : "none")
+		.attr("stroke-width", (d) => d.type === "keyword" ? 1.5 : 0)
 		.on("mouseover", function (event, d) {
-			if (d.type !== "paper") return;
-			d3.select(this).attr("fill", "#111111");
-			tooltip.style.opacity = "1";
-			tooltip.innerHTML = `
-				<div style="font-weight:600;color:#111;margin-bottom:3px;font-size:13px;line-height:1.4">${d.label}</div>
-				<div style="color:#666;font-size:11px;font-family:'JetBrains Mono',monospace;margin-bottom:6px">${d.authors} · ${d.year}</div>
-				<div style="color:#666;font-size:12px;line-height:1.5">${d.tldr}</div>
-			`;
+			if (d.type === "paper") {
+				d3.select(this).attr("fill", "#111111");
+				tooltip.style.opacity = "1";
+				tooltip.innerHTML = `
+					<div style="font-weight:600;color:#111;margin-bottom:3px;font-size:13px;line-height:1.4">${d.label}</div>
+					<div style="color:#666;font-size:11px;font-family:'JetBrains Mono',monospace;margin-bottom:6px">${d.authors} · ${d.year}</div>
+					<div style="color:#666;font-size:12px;line-height:1.5">${d.tldr}</div>
+				`;
+			} else if (d.type === "keyword") {
+				d3.select(this).attr("stroke", "#111111");
+				tooltip.style.opacity = "1";
+				tooltip.innerHTML = `<div style="color:#666;font-size:11px;font-family:'JetBrains Mono',monospace">#${d.label}</div>`;
+			}
 		})
 		.on("mousemove", (event) => {
 			tooltip.style.left = (event.clientX + 14) + "px";
 			tooltip.style.top = (event.clientY - 14) + "px";
 		})
 		.on("mouseout", function (event, d) {
-			if (d.type !== "paper") return;
-			d3.select(this).attr("fill", paperColor(d));
-			tooltip.style.opacity = "0";
+			if (d.type === "paper") {
+				d3.select(this).attr("fill", paperColor(d));
+				tooltip.style.opacity = "0";
+			} else if (d.type === "keyword") {
+				d3.select(this).attr("stroke", "#cccccc");
+				tooltip.style.opacity = "0";
+			}
 		})
 		.on("click", (event, d) => {
 			if (d.type === "paper") window.location.href = d.url;
@@ -169,6 +215,16 @@ const graphData = JSON.stringify({ nodes, links });
 		.attr("font-weight", "600")
 		.attr("letter-spacing", "0.08em")
 		.attr("fill", "#111111");
+
+	// keyword labels
+	node.filter((d) => d.type === "keyword")
+		.append("text")
+		.text((d) => d.label)
+		.attr("x", 8)
+		.attr("dy", "0.35em")
+		.attr("font-family", "'JetBrains Mono', monospace")
+		.attr("font-size", "9px")
+		.attr("fill", "#999999");
 
 	// ── tick ─────────────────────────────────────────────────────────
 	simulation.on("tick", () => {

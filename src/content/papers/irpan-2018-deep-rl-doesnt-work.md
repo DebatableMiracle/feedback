@@ -4,7 +4,6 @@ authors: Irpan
 year: 2018
 topic: Reinforcement Learning
 tags:
-  - rl
   - critique
   - sample-efficiency
 url: https://www.alexirpan.com/2018/02/14/rl-hard.html

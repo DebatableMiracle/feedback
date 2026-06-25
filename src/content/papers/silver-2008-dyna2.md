@@ -6,7 +6,6 @@ authors: Silver et al.
 year: 2008
 topic: Model-Based RL
 tags:
-  - model-based-rl
   - planning
   - world-model
   - sample-efficiency
