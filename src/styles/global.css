@@ -17,8 +17,11 @@
 
 
 @layer base {
+	html {
+		@apply h-full;
+	}
 	body {
-		@apply bg-bg text-text font-sans antialiased text-[16px] leading-relaxed;
+		@apply bg-bg text-text font-sans antialiased text-[16px] leading-relaxed min-h-screen flex flex-col;
 	}
 }
 

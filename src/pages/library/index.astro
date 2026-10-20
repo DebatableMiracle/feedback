@@ -3,6 +3,11 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import FormattedDate from "../../components/FormattedDate.astro";
 import { getCollection } from "astro:content";
 
+const books = (await getCollection("library-books"))
+	.filter((b) => b.data.published)
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+	.slice(0, 4);
+
 const notes = (await getCollection("library-notes"))
 	.filter((n) => n.data.published)
 	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
@@ -21,11 +26,11 @@ const recentPapers = (await getCollection("papers"))
 const totalPapers = (await getCollection("papers")).filter((p) => p.data.published).length;
 ---
 
-<BaseLayout title="Library" description="Notes, resources, and collected things.">
+<BaseLayout title="Library" description="Papers, books, notes, resources, and collected things.">
 	<section class="mb-16">
 		<h1 class="text-xl font-bold mb-2">Library</h1>
 		<p class="text-secondary text-lg leading-relaxed">
-			A more open section. Paper notes, curated resources, and collected things
+			A more open section. Paper notes, books read and reading, curated resources, and collected things
 			that don't quite fit elsewhere.
 		</p>
 	</section>
@@ -56,6 +61,42 @@ const totalPapers = (await getCollection("papers")).filter((p) => p.data.publish
 			<a href="/library/papers" class="text-secondary hover:text-accent transition-colors">
 				View all {totalPapers} papers →
 			</a>
+		</div>
+	</section>
+
+	<section class="mb-16">
+		<h2
+			class="text-sm font-semibold uppercase tracking-wider text-secondary mb-6 border-b border-border pb-2"
+		>
+			Books
+		</h2>
+		{
+			books.length > 0 ? (
+				<ul class="space-y-4">
+					{books.map((book) => (
+						<li class="flex justify-between items-baseline group">
+							<a
+								href={`/library/books/${book.slug}/`}
+								class="text-lg font-serif font-semibold group-hover:text-accent transition-colors"
+							>
+								{book.data.title}
+							</a>
+							<span class="text-sm font-mono text-secondary">
+								<FormattedDate date={book.data.date} />
+							</span>
+						</li>
+					))}
+				</ul>
+			) : (
+				<p class="text-secondary text-sm">Nothing here yet.</p>
+			)
+		}
+		<div class="mt-6 text-sm">
+			<a
+				href="/library/books"
+				class="text-secondary hover:text-accent transition-colors"
+				>View all books →</a
+			>
 		</div>
 	</section>
 

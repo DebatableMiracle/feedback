@@ -1,0 +1,65 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import FormattedDate from "../../../components/FormattedDate.astro";
+import { getCollection } from "astro:content";
+
+const books = (await getCollection("library-books"))
+	.filter((b) => b.data.published)
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const statusLabels: Record<string, string> = {
+	reading: "Currently Reading",
+	read: "Finished",
+	"want-to-read": "Want to Read",
+	paused: "Paused",
+};
+
+const statusColors: Record<string, string> = {
+	reading: "bg-amber-100 text-amber-800 border-amber-200",
+	read: "bg-emerald-100 text-emerald-800 border-emerald-200",
+	"want-to-read": "bg-blue-100 text-blue-800 border-blue-200",
+	paused: "bg-gray-100 text-gray-700 border-gray-200",
+};
+---
+
+<BaseLayout title="Books" description="Books I've read, am currently reading, or plan to read.">
+	<div class="mb-8">
+		<a href="/library" class="text-sm font-mono text-secondary hover:text-accent transition-colors">← Library</a>
+	</div>
+	<h1 class="text-3xl font-serif font-bold mb-12">Books</h1>
+	{
+		books.length > 0 ? (
+			<ul class="space-y-8">
+				{books.map((book) => (
+					<li class="group border-b border-border pb-8 last:border-b-0">
+						<a href={`/library/books/${book.slug}/`} class="block mb-2">
+							<div class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-2">
+								<div class="flex items-center gap-3">
+									<span class="text-xl font-serif font-semibold text-text group-hover:text-accent transition-colors">
+										{book.data.title}
+									</span>
+									{book.data.status && (
+										<span class={`text-[10px] uppercase tracking-wider font-mono px-2 py-0.5 rounded border ${statusColors[book.data.status] || "bg-gray-100 text-secondary border-border"}`}>
+											{statusLabels[book.data.status] || book.data.status}
+										</span>
+									)}
+								</div>
+								<span class="text-sm font-mono text-secondary">
+									<FormattedDate date={book.data.date} />
+								</span>
+							</div>
+							{book.data.authors && (
+								<p class="text-sm font-mono text-secondary mt-1">
+									by {book.data.authors}
+								</p>
+							)}
+						</a>
+						<p class="text-secondary leading-relaxed mt-2">{book.data.description}</p>
+					</li>
+				))}
+			</ul>
+		) : (
+			<p class="text-secondary">Nothing here yet.</p>
+		)
+	}
+</BaseLayout>

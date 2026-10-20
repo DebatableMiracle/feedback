@@ -5,6 +5,7 @@ export async function GET() {
 	const logs = await getCollection("logs");
 	const projects = await getCollection("projects");
 	const papers = await getCollection("papers");
+	const books = await getCollection("library-books");
 	const resources = await getCollection("library-resources");
 	const notes = await getCollection("library-notes");
 
@@ -48,6 +49,18 @@ export async function GET() {
 				url: `/library/papers/${p.slug}/`,
 				date: p.data.date,
 				tags: p.data.tags || [],
+			})),
+		...books
+			.filter((b) => b.data.published)
+			.map((b) => ({
+				type: "book",
+				title: b.data.title,
+				authors: b.data.authors,
+				description: b.data.description,
+				status: b.data.status,
+				url: `/library/books/${b.slug}/`,
+				date: b.data.date,
+				tags: b.data.tags || [],
 			})),
 		...resources
 			.filter((r) => r.data.published)

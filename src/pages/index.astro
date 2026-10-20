@@ -17,30 +17,40 @@ const feedback = await getEntry("pages", "feedback");
 const { Content } = feedback ? await feedback.render() : { Content: null };
 ---
 
-<BaseLayout title="Feedback" description="A markdown-first thinking space.">
-	<section class="mb-16">
-		<h1 class="text-xl font-bold mb-2">{feedback?.data.title ?? "Feedback"}</h1>
-		<div class="text-secondary text-lg leading-relaxed space-y-4">
-			{Content ? <Content /> : (
-				<>
-					<p>
-						A public loop for personal logs and refined articles. Also some
-						dumb stuff I do.
-					</p>
-					<p>
-						Notes for everything that my mind goes through. From Robotics,
-						AGI, to my daily thoughts, observations about people, metaphysical ideas, philosophy
-						and future of humanity maybe?
-					</p>
-				</>
+<BaseLayout title="Feedback" description={feedback?.data.subtitle ?? "A public loop for personal logs and refined articles. Also some dumb stuff I do."}>
+	<section class="min-h-[60vh] sm:min-h-[70vh] flex flex-col justify-center pb-12 mb-16 sm:mb-20">
+		<h1 class="text-5xl sm:text-6xl md:text-7xl font-serif font-bold text-text mb-4 tracking-tight leading-[1.1]">
+			{feedback?.data.title ?? "Feedback"}
+		</h1>
+		<p class="text-xl sm:text-2xl font-serif text-secondary mb-6 sm:mb-8 font-normal leading-snug">
+			{feedback?.data.subtitle ?? "A place for things I’m figuring out."}
+		</p>
+		<div class="text-secondary text-base sm:text-lg leading-relaxed mb-8 max-w-[55ch]">
+			{Content ? (
+				<Content />
+			) : (
+				<p>
+					I’m Anubhav, a masters student at IIT Delhi working on robotics and AI.
+					I build things, think about how they work, and occasionally write about them —
+					from technical stuff to philosophy to whatever else catches my attention.
+				</p>
 			)}
 		</div>
-		<div class="mt-6">
+		<div class="flex items-center gap-6 sm:gap-8 font-mono text-sm sm:text-base">
 			<a
-				href="/get-started"
-				class="text-secondary hover:text-accent transition-colors border-b border-transparent hover:border-accent pb-0.5"
-				>Get Started →</a
+				href="/articles"
+				class="text-secondary hover:text-accent transition-colors inline-flex items-center gap-1 group"
 			>
+				<span>Articles</span>
+				<span class="group-hover:translate-x-1 transition-transform">→</span>
+			</a>
+			<a
+				href="/logs"
+				class="text-secondary hover:text-accent transition-colors inline-flex items-center gap-1 group"
+			>
+				<span>Logs</span>
+				<span class="group-hover:translate-x-1 transition-transform">→</span>
+			</a>
 		</div>
 	</section>
 

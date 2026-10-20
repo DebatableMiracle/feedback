@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
+import MoodToggle from '../../components/MoodToggle.astro';
 import { getCollection } from 'astro:content';
 
 const articles = (await getCollection('articles'))
@@ -9,7 +10,10 @@ const articles = (await getCollection('articles'))
 ---
 
 <BaseLayout title="Articles" description="Essays on robotics, AI, and systems.">
-	<h1 class="text-3xl font-serif font-bold mb-12">Articles</h1>
+	<div class="flex justify-between items-center mb-12">
+		<h1 class="text-3xl font-serif font-bold">Articles</h1>
+		<MoodToggle />
+	</div>
 	<ul class="space-y-8">
 		{
 			articles.map((article) => (

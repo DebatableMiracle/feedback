@@ -33,9 +33,9 @@ const { title, description } = Astro.props;
 		</script>
 		<BaseHead title={title} description={description} />
 	</head>
-	<body>
+	<body class="min-h-screen flex flex-col">
 		<Header />
-		<main class="container">
+		<main class="container flex-1 w-full">
 			<slot />
 		</main>
 		<Footer />

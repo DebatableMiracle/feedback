@@ -7,33 +7,31 @@ export async function getStaticPaths() {
 	const allLogs = await getCollection('logs');
 	const allArticles = await getCollection('articles');
 	const allProjects = await getCollection('projects');
+	const allBooks = await getCollection('library-books');
 	
 	const uniqueTags = [...new Set([
 		...allLogs.flatMap(post => post.data.tags || []),
 		...allArticles.flatMap(post => post.data.tags || []),
-		...allProjects.flatMap(project => project.data.tags || [])
+		...allProjects.flatMap(project => project.data.tags || []),
+		...allBooks.flatMap(book => book.data.tags || [])
 	])];
 
 	return uniqueTags.map((tag) => {
 		const filteredLogs = allLogs.filter((post) => post.data.tags?.includes(tag)).map(p => ({...p, type: 'log'}));
 		const filteredArticles = allArticles.filter((post) => post.data.tags?.includes(tag)).map(p => ({...p, type: 'article'}));
 		const filteredProjects = allProjects.filter((post) => post.data.tags?.includes(tag)).map(p => ({...p, type: 'project'}));
+		const filteredBooks = allBooks.filter((book) => book.data.published && book.data.tags?.includes(tag)).map(b => ({...b, type: 'book'}));
 		
 		return {
 			params: { tag },
 			props: {
 				tag,
-				posts: [...filteredArticles, ...filteredLogs, ...filteredProjects].sort((a, b) => {
-                    // Projects don't have date usually, push to bottom or sort by something else?
-                    // User requirements: "Ordering: Blogs first, Logs after, Each sorted newest first"
-                    // Projects mixed? "Tag pages show mixed content".
-                    // Let's implement User Requirement: "Blogs first, Logs after".
-                    return 0; // Sorting handled in render
-                }),
+				posts: [...filteredArticles, ...filteredLogs, ...filteredProjects, ...filteredBooks].sort((a, b) => 0),
                 grouped: {
                     articles: filteredArticles.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()),
                     logs: filteredLogs.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()),
-                    projects: filteredProjects
+                    projects: filteredProjects,
+                    books: filteredBooks.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
                 }
 			},
 		};
@@ -65,6 +63,20 @@ const { tag, grouped } = Astro.props;
 					<li class="flex justify-between items-baseline group">
 						<a href={`/articles/${article.slug}/`} class="text-lg font-serif font-semibold group-hover:text-accent transition-colors">{article.data.title}</a>
 						<span class="text-sm font-mono text-secondary"><FormattedDate date={article.data.date} /></span>
+					</li>
+				))}
+			</ul>
+		</section>
+	)}
+
+	{grouped.books.length > 0 && (
+		<section class="mb-12">
+			<h2 class="text-sm font-semibold uppercase tracking-wider text-secondary mb-6 border-b border-border pb-2">Books</h2>
+			<ul class="space-y-4">
+				{grouped.books.map((book) => (
+					<li class="flex justify-between items-baseline group">
+						<a href={`/library/books/${book.slug}/`} class="text-lg font-serif font-semibold group-hover:text-accent transition-colors">{book.data.title}</a>
+						<span class="text-sm font-mono text-secondary"><FormattedDate date={book.data.date} /></span>
 					</li>
 				))}
 			</ul>

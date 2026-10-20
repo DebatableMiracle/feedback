@@ -1,0 +1,78 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import FormattedDate from "../../../components/FormattedDate.astro";
+
+export async function getStaticPaths() {
+	const books = await getCollection("library-books");
+	return books.map((book) => ({
+		params: { slug: book.slug },
+		props: book,
+	}));
+}
+
+type Props = CollectionEntry<"library-books">;
+
+const book = Astro.props;
+const { Content } = await book.render();
+
+const statusLabels: Record<string, string> = {
+	reading: "Currently Reading",
+	read: "Finished",
+	"want-to-read": "Want to Read",
+	paused: "Paused",
+};
+
+const statusColors: Record<string, string> = {
+	reading: "bg-amber-100 text-amber-800 border-amber-200",
+	read: "bg-emerald-100 text-emerald-800 border-emerald-200",
+	"want-to-read": "bg-blue-100 text-blue-800 border-blue-200",
+	paused: "bg-gray-100 text-gray-700 border-gray-200",
+};
+---
+
+<BaseLayout title={book.data.title} description={book.data.description}>
+	<article class="max-w-[65ch] mx-auto">
+		<div class="mb-8">
+			<a href="/library/books" class="text-sm font-mono text-secondary hover:text-accent transition-colors">← Books</a>
+		</div>
+		<header class="mb-12">
+			{
+				book.data.status && (
+					<div class="flex items-center gap-3 mb-3">
+						<span class={`text-[10px] uppercase tracking-wider font-mono px-2 py-0.5 rounded border ${statusColors[book.data.status] || "bg-gray-100 text-secondary border-border"}`}>
+							{statusLabels[book.data.status] || book.data.status}
+						</span>
+					</div>
+				)
+			}
+			<h1 class="text-4xl font-serif font-bold mb-2 leading-tight">
+				{book.data.title}
+			</h1>
+			{
+				book.data.authors && (
+					<p class="text-lg font-serif italic text-secondary mb-4">
+						by {book.data.authors}
+					</p>
+				)
+			}
+			<div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mt-6 text-sm font-mono text-secondary border-t border-border pt-4">
+				{
+					book.data.tags && (
+						<div class="flex flex-wrap gap-2">
+							{book.data.tags.map((tag) => (
+								<a href={`/tags/${tag}`} class="hover:text-accent">
+									#{tag}
+								</a>
+							))}
+						</div>
+					)
+				}
+				<FormattedDate date={book.data.date} class="shrink-0" />
+			</div>
+		</header>
+		<div class="prose prose-lg font-serif mx-auto">
+			<Content />
+		</div>
+	</article>
+</BaseLayout>

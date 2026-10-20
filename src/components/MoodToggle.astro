@@ -1,0 +1,36 @@
+---
+---
+
+<div class="flex gap-1 bg-gray-100 p-1 rounded-md" id="mood-toggle">
+	<button data-filter="all" class="px-2 py-0.5 rounded text-xs font-bold bg-white shadow-sm text-text transition-all cursor-pointer">ALL</button>
+	<button data-filter="system" class="px-2 py-0.5 rounded text-xs text-secondary hover:bg-white/50 transition-all cursor-pointer">SYS</button>
+	<button data-filter="soul" class="px-2 py-0.5 rounded text-xs text-secondary hover:bg-white/50 transition-all cursor-pointer">SOUL</button>
+</div>
+
+<script>
+	const buttons = document.querySelectorAll('#mood-toggle button');
+	const items = document.querySelectorAll('li[data-mood]');
+
+	buttons.forEach(btn => {
+		btn.addEventListener('click', () => {
+			// Update active state
+			buttons.forEach(b => {
+				b.classList.remove('bg-white', 'shadow-sm', 'text-text', 'font-bold');
+				b.classList.add('text-secondary');
+			});
+			btn.classList.add('bg-white', 'shadow-sm', 'text-text', 'font-bold');
+			btn.classList.remove('text-secondary');
+
+			// Filter items
+			const filter = btn.getAttribute('data-filter');
+			items.forEach(item => {
+				const itemMood = item.getAttribute('data-mood');
+				if (filter === 'all' || itemMood === filter) {
+					item.classList.remove('hidden');
+				} else {
+					item.classList.add('hidden');
+				}
+			});
+		});
+	});
+</script>

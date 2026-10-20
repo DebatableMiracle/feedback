@@ -19,6 +19,7 @@ const logs = (await getCollection("logs"))
 	.map((l) => ({
 		type: "log",
 		title: `Log #${l.data.log_number}${l.data.subtitle ? ` — ${l.data.subtitle}` : ""}`,
+		description: l.data.subtitle,
 		url: `/logs/${l.slug}/`,
 		date: l.data.date,
 		tags: l.data.tags || [],
@@ -44,6 +45,17 @@ const papers = (await getCollection("papers"))
 		tags: p.data.tags || [],
 	}));
 
+const books = (await getCollection("library-books"))
+	.filter((b) => b.data.published)
+	.map((b) => ({
+		type: "book",
+		title: b.data.title,
+		description: b.data.authors ? `by ${b.data.authors} — ${b.data.description}` : b.data.description,
+		url: `/library/books/${b.slug}/`,
+		date: b.data.date,
+		tags: b.data.tags || [],
+	}));
+
 const resources = (await getCollection("library-resources"))
 	.filter((r) => r.data.published)
 	.map((r) => ({
@@ -66,7 +78,7 @@ const notes = (await getCollection("library-notes"))
 		tags: n.data.tags || [],
 	}));
 
-const allItems = [...articles, ...logs, ...projects, ...papers, ...resources, ...notes].sort((a, b) => {
+const allItems = [...articles, ...logs, ...projects, ...papers, ...books, ...resources, ...notes].sort((a, b) => {
 	if (a.date && b.date) {
 		return b.date.valueOf() - a.date.valueOf();
 	}
@@ -76,7 +88,7 @@ const allItems = [...articles, ...logs, ...projects, ...papers, ...resources, ..
 });
 ---
 
-<BaseLayout title="All Content" description="A unified index of all articles, logs, projects, papers, notes, and resources.">
+<BaseLayout title="All Content" description="A unified index of all articles, logs, projects, papers, books, notes, and resources.">
 	<section class="mb-12">
 		<h1 class="text-xl font-bold mb-2">All Content</h1>
 		<p class="text-secondary text-lg leading-relaxed">
@@ -91,6 +103,7 @@ const allItems = [...articles, ...logs, ...projects, ...papers, ...resources, ..
 			<button data-type="log" class="px-3 py-1.5 rounded border border-border text-secondary hover:text-text hover:bg-gray-100 transition-all cursor-pointer">LOGS</button>
 			<button data-type="project" class="px-3 py-1.5 rounded border border-border text-secondary hover:text-text hover:bg-gray-100 transition-all cursor-pointer">PROJECTS</button>
 			<button data-type="paper" class="px-3 py-1.5 rounded border border-border text-secondary hover:text-text hover:bg-gray-100 transition-all cursor-pointer">PAPERS</button>
+			<button data-type="book" class="px-3 py-1.5 rounded border border-border text-secondary hover:text-text hover:bg-gray-100 transition-all cursor-pointer">BOOKS</button>
 			<button data-type="resource" class="px-3 py-1.5 rounded border border-border text-secondary hover:text-text hover:bg-gray-100 transition-all cursor-pointer">RESOURCES</button>
 			<button data-type="note" class="px-3 py-1.5 rounded border border-border text-secondary hover:text-text hover:bg-gray-100 transition-all cursor-pointer">NOTES</button>
 		</div>
