@@ -21,30 +21,30 @@
 /* ── Dark (GitHub-style) ─────────────────────────────── */
 html.dark {
 	color-scheme: dark;
-	--color-bg: #0d1117;
-	--color-text: #e6edf3;
-	--color-secondary: #8b949e;
-	--color-border: #21262d;
-	--color-accent: #c9d1d9;
+	--color-bg: #181818;
+	--color-text: #f0f0f0;
+	--color-secondary: #888888;
+	--color-border: #2e2e2e;
+	--color-accent: #d4d4d4;
 }
 
 html.dark .prose {
-	--tw-prose-body: #c9d1d9;
-	--tw-prose-headings: #e6edf3;
-	--tw-prose-lead: #8b949e;
-	--tw-prose-links: #58a6ff;
-	--tw-prose-bold: #e6edf3;
-	--tw-prose-counters: #8b949e;
-	--tw-prose-bullets: #484f58;
-	--tw-prose-hr: #21262d;
-	--tw-prose-quotes: #e6edf3;
-	--tw-prose-quote-borders: #30363d;
-	--tw-prose-captions: #8b949e;
-	--tw-prose-code: #f0883e;
-	--tw-prose-pre-code: #c9d1d9;
-	--tw-prose-pre-bg: #161b22;
-	--tw-prose-th-borders: #21262d;
-	--tw-prose-td-borders: #21262d;
+	--tw-prose-body: #d8d8d8;
+	--tw-prose-headings: #f0f0f0;
+	--tw-prose-lead: #888888;
+	--tw-prose-links: #d4d4d4;
+	--tw-prose-bold: #f0f0f0;
+	--tw-prose-counters: #888888;
+	--tw-prose-bullets: #444444;
+	--tw-prose-hr: #2e2e2e;
+	--tw-prose-quotes: #f0f0f0;
+	--tw-prose-quote-borders: #3a3a3a;
+	--tw-prose-captions: #888888;
+	--tw-prose-code: #d4d4d4;
+	--tw-prose-pre-code: #d8d8d8;
+	--tw-prose-pre-bg: #222222;
+	--tw-prose-th-borders: #2e2e2e;
+	--tw-prose-td-borders: #2e2e2e;
 }
 
 /* ── Coffee ──────────────────────────────────────────── */
