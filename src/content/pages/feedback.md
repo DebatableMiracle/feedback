@@ -1,13 +1,9 @@
 ---
 title: Feedback
-description: A markdown-first online writing space.
+subtitle: A place for things I’m figuring out.
+description: A place for things I'm figuring out.
 published: true
 date: 2026-06-25T21:20:10.830Z
 ---
 
-
-Hi this is Feedback, it's my personal website where I am going to write articles and logs. I am also considering to give it more personal touches, where I can talk about different things like projects, resources in the library section.
-
-Now I'm Anubhav, I am a research student and I work on lots of different engineering problems that deal with AI and robots (Physical AI). I also have vast set of interest which you'll probably notice from how wildly different the articles here can be. I also would like to document my life and projects sometimes, and all the things I find interesting. 
-
-Coming from an Electrical Engineering background, my current interest lie towards Robotics, AI, Reinforcement Learning, robot learning, and autonomous systems and vehicles. Apart from engineering, I also like exploring ideas about future of technology, philosophy, Metaphysics and sometimes talking about Human Condition. So, if everything feels a little out of place, it's intentional, I suppose.
+I’m Anubhav, a masters student at IIT Delhi working on robotics and AI. I build things, think about how they work, and occasionally write about them — from technical stuff to philosophy to whatever else catches my attention.
