@@ -1,10 +1,10 @@
 ---
 ---
 
-<div class="flex gap-1 bg-gray-100 p-1 rounded-md" id="mood-toggle">
-	<button data-filter="all" class="px-2 py-0.5 rounded text-xs font-bold bg-white shadow-sm text-text transition-all cursor-pointer">ALL</button>
-	<button data-filter="system" class="px-2 py-0.5 rounded text-xs text-secondary hover:bg-white/50 transition-all cursor-pointer">SYS</button>
-	<button data-filter="soul" class="px-2 py-0.5 rounded text-xs text-secondary hover:bg-white/50 transition-all cursor-pointer">SOUL</button>
+<div class="flex gap-1 bg-neutral-200/60 dark:bg-neutral-800 p-1 rounded-md" id="mood-toggle">
+	<button data-filter="all" class="px-2 py-0.5 rounded text-xs font-bold bg-white dark:bg-neutral-900 shadow-sm text-text transition-all cursor-pointer">ALL</button>
+	<button data-filter="system" class="px-2 py-0.5 rounded text-xs text-secondary hover:bg-white/50 dark:hover:bg-neutral-700/50 transition-all cursor-pointer">SYS</button>
+	<button data-filter="soul" class="px-2 py-0.5 rounded text-xs text-secondary hover:bg-white/50 dark:hover:bg-neutral-700/50 transition-all cursor-pointer">SOUL</button>
 </div>
 
 <script>
@@ -15,10 +15,10 @@
 		btn.addEventListener('click', () => {
 			// Update active state
 			buttons.forEach(b => {
-				b.classList.remove('bg-white', 'shadow-sm', 'text-text', 'font-bold');
+				b.classList.remove('bg-white', 'dark:bg-neutral-900', 'shadow-sm', 'text-text', 'font-bold');
 				b.classList.add('text-secondary');
 			});
-			btn.classList.add('bg-white', 'shadow-sm', 'text-text', 'font-bold');
+			btn.classList.add('bg-white', 'dark:bg-neutral-900', 'shadow-sm', 'text-text', 'font-bold');
 			btn.classList.remove('text-secondary');
 
 			// Filter items

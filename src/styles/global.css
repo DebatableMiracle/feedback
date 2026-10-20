@@ -2,6 +2,10 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant coffee (&:where(.coffee, .coffee *));
+
+/* ── Light (default) ─────────────────────────────────── */
 @theme {
 	--color-bg: #f9f9f9;
 	--color-text: #111111;
@@ -14,7 +18,63 @@
 	--font-mono: "JetBrains Mono", monospace;
 }
 
+/* ── Dark (GitHub-style) ─────────────────────────────── */
+html.dark {
+	color-scheme: dark;
+	--color-bg: #0d1117;
+	--color-text: #e6edf3;
+	--color-secondary: #8b949e;
+	--color-border: #21262d;
+	--color-accent: #c9d1d9;
+}
 
+html.dark .prose {
+	--tw-prose-body: #c9d1d9;
+	--tw-prose-headings: #e6edf3;
+	--tw-prose-lead: #8b949e;
+	--tw-prose-links: #58a6ff;
+	--tw-prose-bold: #e6edf3;
+	--tw-prose-counters: #8b949e;
+	--tw-prose-bullets: #484f58;
+	--tw-prose-hr: #21262d;
+	--tw-prose-quotes: #e6edf3;
+	--tw-prose-quote-borders: #30363d;
+	--tw-prose-captions: #8b949e;
+	--tw-prose-code: #f0883e;
+	--tw-prose-pre-code: #c9d1d9;
+	--tw-prose-pre-bg: #161b22;
+	--tw-prose-th-borders: #21262d;
+	--tw-prose-td-borders: #21262d;
+}
+
+/* ── Coffee ──────────────────────────────────────────── */
+html.coffee {
+	color-scheme: light;
+	--color-bg: #f5f0e4;
+	--color-text: #2c1a0e;
+	--color-secondary: #7a5c47;
+	--color-border: #ddd0bc;
+	--color-accent: #5c3a1e;
+}
+
+html.coffee .prose {
+	--tw-prose-body: #3d2410;
+	--tw-prose-headings: #1e100a;
+	--tw-prose-lead: #7a5c47;
+	--tw-prose-links: #5c3a1e;
+	--tw-prose-bold: #1e100a;
+	--tw-prose-counters: #7a5c47;
+	--tw-prose-bullets: #a07850;
+	--tw-prose-hr: #ddd0bc;
+	--tw-prose-quotes: #2c1a0e;
+	--tw-prose-quote-borders: #c4a87a;
+	--tw-prose-captions: #7a5c47;
+	--tw-prose-code: #5c3a1e;
+	--tw-prose-pre-code: #3d2410;
+	--tw-prose-pre-bg: #ede5d0;
+	--tw-prose-th-borders: #ddd0bc;
+	--tw-prose-td-borders: #ddd0bc;
+}
 
 @layer base {
 	html {
@@ -22,6 +82,7 @@
 	}
 	body {
 		@apply bg-bg text-text font-sans antialiased text-[16px] leading-relaxed min-h-screen flex flex-col;
+		transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 	}
 }
 

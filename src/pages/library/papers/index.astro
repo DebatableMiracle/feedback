@@ -68,16 +68,14 @@ const graphData = JSON.stringify({ nodes, links });
 	</div>
 
 	<div id="graph-wrap" class="relative border border-border rounded-sm" style="width: 100vw; position: relative; left: 50%; transform: translateX(-50%); max-width: 860px;">
-		<svg id="graph" style="width: 100%; height: min(75vh, 720px); display: block; background: #f9f9f9; cursor: grab;"></svg>
-		<button id="fit-btn" type="button" class="absolute top-3 right-3 text-xs font-mono text-secondary hover:text-accent transition-colors border border-border bg-bg px-2 py-1 rounded-sm">
+		<svg id="graph" class="bg-bg" style="width: 100%; height: min(75vh, 720px); display: block; cursor: grab;"></svg>
+		<button id="fit-btn" type="button" class="absolute top-3 right-3 text-xs font-mono text-secondary hover:text-accent transition-colors border border-border bg-bg px-2 py-1 rounded-sm cursor-pointer">
 			fit view
 		</button>
 	</div>
 
-	<div id="tooltip" style="
+	<div id="tooltip" class="bg-bg border border-border text-text shadow-md rounded-sm" style="
 		position: fixed;
-		background: #f9f9f9;
-		border: 1px solid #e5e5e5;
 		padding: 10px 14px;
 		max-width: 260px;
 		pointer-events: none;
@@ -213,25 +211,25 @@ const graphData = JSON.stringify({ nodes, links });
 			return 5;
 		})
 		.attr("fill", (d) => {
-			if (d.type === "topic") return "#111111";
-			if (d.type === "keyword") return "#f9f9f9";
+			if (d.type === "topic") return "var(--color-text)";
+			if (d.type === "keyword") return "var(--color-bg)";
 			return paperColor(d);
 		})
-		.attr("stroke", (d) => d.type === "keyword" ? "#cccccc" : "none")
+		.attr("stroke", (d) => d.type === "keyword" ? "var(--color-secondary)" : "none")
 		.attr("stroke-width", (d) => d.type === "keyword" ? 1.5 : 0)
 		.on("mouseover", function (event, d) {
 			if (d.type === "paper") {
-				d3.select(this).attr("fill", "#111111");
+				d3.select(this).attr("fill", "var(--color-text)");
 				tooltip.style.opacity = "1";
 				tooltip.innerHTML = `
-					<div style="font-weight:600;color:#111;margin-bottom:3px;font-size:13px;line-height:1.4">${d.label}</div>
-					<div style="color:#666;font-size:11px;font-family:'JetBrains Mono',monospace;margin-bottom:6px">${d.authors} · ${d.year}</div>
-					<div style="color:#666;font-size:12px;line-height:1.5">${d.tldr}</div>
+					<div style="font-weight:600;margin-bottom:3px;font-size:13px;line-height:1.4">${d.label}</div>
+					<div style="color:var(--color-secondary);font-size:11px;font-family:'JetBrains Mono',monospace;margin-bottom:6px">${d.authors} · ${d.year}</div>
+					<div style="color:var(--color-secondary);font-size:12px;line-height:1.5">${d.tldr}</div>
 				`;
 			} else if (d.type === "keyword") {
-				d3.select(this).attr("stroke", "#111111");
+				d3.select(this).attr("stroke", "var(--color-text)");
 				tooltip.style.opacity = "1";
-				tooltip.innerHTML = `<div style="color:#666;font-size:11px;font-family:'JetBrains Mono',monospace">#${d.label}</div>`;
+				tooltip.innerHTML = `<div style="color:var(--color-secondary);font-size:11px;font-family:'JetBrains Mono',monospace">#${d.label}</div>`;
 			}
 		})
 		.on("mousemove", (event) => {
@@ -243,7 +241,7 @@ const graphData = JSON.stringify({ nodes, links });
 				d3.select(this).attr("fill", paperColor(d));
 				tooltip.style.opacity = "0";
 			} else if (d.type === "keyword") {
-				d3.select(this).attr("stroke", "#cccccc");
+				d3.select(this).attr("stroke", "var(--color-secondary)");
 				tooltip.style.opacity = "0";
 			}
 		})
@@ -260,7 +258,7 @@ const graphData = JSON.stringify({ nodes, links });
 		.attr("font-size", "10px")
 		.attr("font-weight", "600")
 		.attr("letter-spacing", "0.08em")
-		.attr("fill", "#111111");
+		.attr("fill", "var(--color-text)");
 
 	node.filter((d) => d.type === "keyword")
 		.append("text")
@@ -269,7 +267,7 @@ const graphData = JSON.stringify({ nodes, links });
 		.attr("dy", "0.35em")
 		.attr("font-family", "'JetBrains Mono', monospace")
 		.attr("font-size", "9px")
-		.attr("fill", "#999999");
+		.attr("fill", "var(--color-secondary)");
 
 	let fitted = false;
 	simulation.on("tick", () => {

@@ -1,20 +1,38 @@
 <div class="giscus"></div>
 
-<script is:inline
-        src="https://giscus.app/client.js"
-        data-repo="DebatableMiracle/feedback"
-        data-repo-id="R_kgDOQxuYcw"
-        data-category="General"
-        data-category-id="DIC_kwDOQxuYc84C0bmM"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="light"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
+<script is:inline>
+	function getGiscusTheme() {
+		return document.documentElement.classList.contains("dark") ? "transparent_dark" : "light";
+	}
+
+	const giscusContainer = document.querySelector(".giscus");
+	if (giscusContainer) {
+		const s = document.createElement("script");
+		s.src = "https://giscus.app/client.js";
+		s.setAttribute("data-repo", "DebatableMiracle/feedback");
+		s.setAttribute("data-repo-id", "R_kgDOQxuYcw");
+		s.setAttribute("data-category", "General");
+		s.setAttribute("data-category-id", "DIC_kwDOQxuYc84C0bmM");
+		s.setAttribute("data-mapping", "pathname");
+		s.setAttribute("data-strict", "0");
+		s.setAttribute("data-reactions-enabled", "1");
+		s.setAttribute("data-emit-metadata", "0");
+		s.setAttribute("data-input-position", "bottom");
+		s.setAttribute("data-theme", getGiscusTheme());
+		s.setAttribute("data-lang", "en");
+		s.setAttribute("crossorigin", "anonymous");
+		s.async = true;
+		giscusContainer.appendChild(s);
+	}
+
+	window.addEventListener("theme-change", (e) => {
+		const iframe = document.querySelector("iframe.giscus-frame");
+		if (!iframe) return;
+		iframe.contentWindow.postMessage(
+			{ giscus: { setConfig: { theme: e.detail.theme === "dark" ? "transparent_dark" : "light" } } },
+			"https://giscus.app"
+		);
+	});
 </script>
 <!-- 
     To configure comments:

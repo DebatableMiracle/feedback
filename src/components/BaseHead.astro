@@ -21,6 +21,19 @@ const { title, description, image = "/placeholder-social.png" } = Astro.props;
 <meta name="theme-color" content="#111111" />
 <meta name="generator" content={Astro.generator} />
 
+<!-- Theme initialization (prevents FOUC) -->
+<script is:inline>
+	(function() {
+		const stored = typeof localStorage !== "undefined" && localStorage.getItem("theme");
+		const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+		const theme = stored || (systemDark ? "dark" : "light");
+		const html = document.documentElement;
+		html.classList.remove("dark", "coffee");
+		if (theme === "dark") html.classList.add("dark");
+		if (theme === "coffee") html.classList.add("coffee");
+	})();
+</script>
+
 <!-- Microsoft Clarity -->
 <script type="text/javascript" is:inline>
 	(function (c, l, a, r, i, t, y) {

@@ -99,13 +99,13 @@ const allItems = [...articles, ...logs, ...projects, ...papers, ...books, ...res
 	<section class="mb-8">
 		<div class="flex flex-wrap gap-2 text-xs font-mono" id="type-filter">
 			<button data-type="all" class="px-3 py-1.5 rounded border border-border bg-text text-bg font-bold transition-all cursor-pointer">ALL</button>
-			<button data-type="article" class="px-3 py-1.5 rounded border border-border text-secondary hover:text-text hover:bg-gray-100 transition-all cursor-pointer">ARTICLES</button>
-			<button data-type="log" class="px-3 py-1.5 rounded border border-border text-secondary hover:text-text hover:bg-gray-100 transition-all cursor-pointer">LOGS</button>
-			<button data-type="project" class="px-3 py-1.5 rounded border border-border text-secondary hover:text-text hover:bg-gray-100 transition-all cursor-pointer">PROJECTS</button>
-			<button data-type="paper" class="px-3 py-1.5 rounded border border-border text-secondary hover:text-text hover:bg-gray-100 transition-all cursor-pointer">PAPERS</button>
-			<button data-type="book" class="px-3 py-1.5 rounded border border-border text-secondary hover:text-text hover:bg-gray-100 transition-all cursor-pointer">BOOKS</button>
-			<button data-type="resource" class="px-3 py-1.5 rounded border border-border text-secondary hover:text-text hover:bg-gray-100 transition-all cursor-pointer">RESOURCES</button>
-			<button data-type="note" class="px-3 py-1.5 rounded border border-border text-secondary hover:text-text hover:bg-gray-100 transition-all cursor-pointer">NOTES</button>
+			<button data-type="article" class="px-3 py-1.5 rounded border border-border text-secondary hover:text-text hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all cursor-pointer">ARTICLES</button>
+			<button data-type="log" class="px-3 py-1.5 rounded border border-border text-secondary hover:text-text hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all cursor-pointer">LOGS</button>
+			<button data-type="project" class="px-3 py-1.5 rounded border border-border text-secondary hover:text-text hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all cursor-pointer">PROJECTS</button>
+			<button data-type="paper" class="px-3 py-1.5 rounded border border-border text-secondary hover:text-text hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all cursor-pointer">PAPERS</button>
+			<button data-type="book" class="px-3 py-1.5 rounded border border-border text-secondary hover:text-text hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all cursor-pointer">BOOKS</button>
+			<button data-type="resource" class="px-3 py-1.5 rounded border border-border text-secondary hover:text-text hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all cursor-pointer">RESOURCES</button>
+			<button data-type="note" class="px-3 py-1.5 rounded border border-border text-secondary hover:text-text hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all cursor-pointer">NOTES</button>
 		</div>
 	</section>
 
@@ -114,7 +114,7 @@ const allItems = [...articles, ...logs, ...projects, ...papers, ...books, ...res
 			{allItems.map((item) => (
 				<li class="group flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-4 border-b border-border pb-4" data-type={item.type}>
 					<div class="flex items-center gap-3 sm:min-w-[180px] shrink-0">
-						<span class="text-[10px] font-mono uppercase tracking-wider bg-gray-100 text-secondary px-2 py-0.5 rounded border border-border group-hover:bg-accent group-hover:text-white group-hover:border-accent transition-colors">
+						<span class="text-[10px] font-mono uppercase tracking-wider bg-neutral-100 dark:bg-neutral-800 text-secondary px-2 py-0.5 rounded border border-border group-hover:bg-accent group-hover:text-white group-hover:border-accent transition-colors">
 							{item.type}
 						</span>
 						<span class="text-xs font-mono text-secondary">
@@ -144,10 +144,10 @@ const allItems = [...articles, ...logs, ...projects, ...papers, ...books, ...res
 			btn.addEventListener('click', () => {
 				buttons.forEach(b => {
 					b.classList.remove('bg-text', 'text-bg', 'font-bold');
-					b.classList.add('text-secondary', 'hover:bg-gray-100');
+					b.classList.add('text-secondary', 'hover:bg-neutral-100', 'dark:hover:bg-neutral-800');
 				});
 				btn.classList.add('bg-text', 'text-bg', 'font-bold');
-				btn.classList.remove('text-secondary', 'hover:bg-gray-100');
+				btn.classList.remove('text-secondary', 'hover:bg-neutral-100', 'dark:hover:bg-neutral-800');
 
 				const typeFilter = btn.getAttribute('data-type');
 				listItems.forEach(item => {
